@@ -34,17 +34,18 @@ plt.show()
 
 
 #%%
-data["L1"]=data.r1+data.r2+data.r3+data.r4+data.r5+data.r6
+data["L1"]=data.r1+data.r2+data.r3#+data.r4+data.r5+data.r6
 data["L1"]=data["L1"]*1000
 
-data["L2"]=data.r1**2+data.r2**2+data.r3**2+data.r4**2 +data.r5**2+data.r6**2
+data["L2"]=data.r1**2+data.r2**2+data.r3**2#+data.r4**2 +data.r5**2+data.r6**2
 data["L2"]=data.L2**0.5
 data["L2"]=data["L2"]*1000
 
 l2 = data.L2
 l1 = data.L1
 dur = data.Duration
-
+print(l2.corr(dur))
+print(l1.corr(dur))
 
 
 
