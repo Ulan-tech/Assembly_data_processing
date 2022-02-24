@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 #%% Loding data
-data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\HookC1.csv')
+data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\Table2.csv')
 
 
 data=data[data.Components!="Start"]

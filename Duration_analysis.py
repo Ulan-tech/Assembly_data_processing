@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 #%% Loding data
-data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\HookC1.csv')
+data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\Table2.csv')
 print(data.Time)
 #%% converting to time
 data['Time'] =  pd.to_datetime(data['Time'], format='%H:%M:%S %p')
@@ -34,6 +34,19 @@ plt.show()
 
 
 #%%
+data["L1"]=data.r1+data.r2+data.r3+data.r4+data.r5+data.r6
+data["L1"]=data["L1"]*1000
+
+data["L2"]=data.r1**2+data.r2**2+data.r3**2+data.r4**2 +data.r5**2+data.r6**2
+data["L2"]=data.L2**0.5
+data["L2"]=data["L2"]*1000
+
+l2 = data.L2
+l1 = data.L1
+dur = data.Duration
+
+
+
 
 
 
