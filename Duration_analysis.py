@@ -33,8 +33,7 @@ data.Duration.plot()
 plt.show()
 
 
-
-
+#%%
 
 
 
