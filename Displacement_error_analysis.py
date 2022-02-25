@@ -7,7 +7,7 @@ data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\Table2.cs
 
 
 data=data[data.Components!="Start"]
-data=data[data.Edges==5]
+data=data[data.Edges==6]
 data["L1"]=data.r1+data.r2+data.r3#+data.r4#+data.r5+data.r6
 data["L1"]=data["L1"]*1000
 
