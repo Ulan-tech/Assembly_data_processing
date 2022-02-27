@@ -1,8 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from scipy import stats
 import numpy as np
 
-#%% Loding data
+#%% Loading data
 data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\Table2.csv')
 
 
@@ -26,7 +27,7 @@ plt.show()
 ax = data.L1.plot.hist(bins=12, alpha=0.5)
 
 plt.title("L1")
-plt.xlabel("mm")
+plt.xlabel("Displacement error(mm)")
 plt.show()
 
 #%% Plotting L2
@@ -35,7 +36,7 @@ plt.plot(data.L2)
 plt.show()
 ax = data.L2.plot.hist(bins=12, alpha=0.5)
 plt.title("L2")
-plt.xlabel("mm")
+plt.xlabel("Displacement error(mm)")
 plt.show()
 
 #%% Plotting r1
@@ -49,3 +50,7 @@ data.r2.plot()
 plt.show()
 ax = data.r2.plot.hist(bins=12, alpha=0.5)
 plt.show()
+
+#%% Counts of disp_errors
+sum= sum(data.r1.value_counts())
+print(sum)
