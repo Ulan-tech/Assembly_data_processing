@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import norm
 
-#%% Loading data
-data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\HookC1.csv')
+#%% Loding data
+data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\HookUnconsol.csv')
 print(data.Time)
 #%% converting to time
 data['Time'] =  pd.to_datetime(data['Time'], format='%H:%M:%S %p')
@@ -22,7 +22,9 @@ print(data.Duration)
 #%% First in trial , first rep
 
 data=data[data.Username==data.shift(1).Username]
+# print(data.Username==data.shift(1).Username)
 print(data)
+# data=data.drop([11,19,39])
 
 data.Duration = (data.Duration / np.timedelta64(1,'s')).astype(float)
 print(data.Duration)
@@ -87,7 +89,7 @@ x = np.linspace(0, xmax, 100)
 p = norm.pdf(x, mu, std)
 
 plt.plot(x, p, 'k', linewidth=2)
-title = "Fit Values: {:.2f} and {:.2f}".format(mu, std)
+title = "Fit Values of Hook_uncon: {:.2f} and {:.2f}".format(mu, std)
 plt.title(title)
 
 plt.show()

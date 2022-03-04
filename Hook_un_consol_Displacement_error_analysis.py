@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from scipy import stats
+from scipy.stats import norm
 import numpy as np
 
 #%% Loading data
@@ -70,3 +70,20 @@ print(sum)
 # plt.plot(x,y)
 #
 # plt.show()
+
+
+#%% Norm fitting
+mu, std = norm.fit(data.L1)
+
+# Plot the histogram.
+plt.hist(data.L1, bins=12, density=True, alpha=0.5, color='b')
+
+xmin, xmax = plt.xlim()
+x = np.linspace(xmin, xmax, 100)
+p = norm.pdf(x, mu, std)
+
+plt.plot(x, p, 'k', linewidth=2)
+title = "Fit Values of Hook_Unconsol (L1): {:.2f} and {:.2f}".format(mu, std)
+plt.title(title)
+
+plt.show()

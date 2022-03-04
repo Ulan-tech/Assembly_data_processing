@@ -4,7 +4,7 @@ import numpy as np
 from scipy.stats import norm
 
 #%% Loding data
-data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\Table3.csv')
+data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\table3.csv')
 print(data.Time)
 #%% converting to time
 data['Time'] =  pd.to_datetime(data['Time'], format='%H:%M:%S %p')
