@@ -4,15 +4,19 @@ from scipy import stats
 import numpy as np
 
 #%% Loading data
-data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\Table2.csv')
+data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\HookUnconsol.csv')
 
 
 data=data[data.Components!="Start"]
-data=data[data.Edges==6]
-data["L1"]=data.r1+data.r2+data.r3#+data.r4#+data.r5+data.r6
-data["L1"]=data["L1"]*1000
+data=data[data.Edges==8]
 
-data["L2"]=data.r1**2+data.r2**2+data.r3#**2+data.r4**2 #+data.r5**2+data.r6**2
+
+
+data["L1"]=data.r1+data.r2+data.r3+data.r4+data.r5+data.r6+data.r7+data.r8
+data["L1"]=data["L1"]*1000
+print(data["L1"])
+
+data["L2"]=data.r1**2+data.r2**2+data.r3**2+data.r4**2+data.r5**2+data.r6**2+data.r7**2+data.r8
 data["L2"]=data.L2**0.5
 data["L2"]=data["L2"]*1000
 
@@ -43,14 +47,26 @@ plt.show()
 data.r1.plot()
 plt.show()
 ax = data.r1.plot.hist(bins=12, alpha=0.5)
+plt.title("HookUnCon r1")
+plt.xlabel("Displacement error(m)")
 plt.show()
 
 #%% Plotting r2
 data.r2.plot()
 plt.show()
 ax = data.r2.plot.hist(bins=12, alpha=0.5)
+plt.title("HookUnCon r2")
+plt.xlabel("Displacement error(m)")
 plt.show()
 
 #%% Counts of disp_errors
 sum= sum(data.r1.value_counts())
 print(sum)
+
+# #%% Erlang distribution
+#
+# x=data.r1
+# y=stats.gamma.pdf(x, a=5, scale=3)
+# plt.plot(x,y)
+#
+# plt.show()
