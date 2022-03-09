@@ -138,6 +138,8 @@ plt.title(title)
 plt.show()
 
 
+
+
 #%%Plotting common range_L2
 fig, ax = plt.subplots()
 lessthanX=norm.cdf(x=8.880, loc=10.309, scale=3.518)
