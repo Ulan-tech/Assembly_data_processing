@@ -99,3 +99,5 @@ title = "Fit Values of B3 (L2): {:.4f} and {:.4f}".format(mu, std)
 plt.title(title)
 
 plt.show()
+
+#%% calculating probability

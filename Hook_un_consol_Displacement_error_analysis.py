@@ -4,7 +4,7 @@ from scipy.stats import norm
 import numpy as np
 
 #%% Loading data
-data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\HookUnconsol.csv')
+data = pd.read_csv(r'C:\Users\USER\pythonProject\Data\HookUnconsol.csv')
 
 
 data=data[data.Components!="Start"]
@@ -73,7 +73,7 @@ print(sum)
 
 
 #%% Norm fitting
-mu, std = norm.fit(data.L1)
+mu, std = norm.fit(data.L2)
 
 # Plot the histogram.
 plt.hist(data.L1, bins=12, density=True, alpha=0.5, color='b')
@@ -83,7 +83,23 @@ x = np.linspace(xmin, xmax, 100)
 p = norm.pdf(x, mu, std)
 
 plt.plot(x, p, 'k', linewidth=2)
-title = "Fit Values of Hook_Unconsol (L1): {:.2f} and {:.2f}".format(mu, std)
+title = "Fit Values of Hook_Unconsol (L1): {:.3f} and {:.3f}".format(mu, std)
+plt.title(title)
+
+plt.show()
+
+#%% Norm fitting
+mu, std = norm.fit(data.L2)
+
+# Plot the histogram.
+plt.hist(data.L1, bins=12, density=True, alpha=0.5, color='b')
+
+xmin, xmax = plt.xlim()
+x = np.linspace(xmin, xmax, 100)
+p = norm.pdf(x, mu, std)
+
+plt.plot(x, p, 'k', linewidth=2)
+title = "Fit Values of Hook_Unconsol (L2): {:.3f} and {:.3f}".format(mu, std)
 plt.title(title)
 
 plt.show()

@@ -4,7 +4,7 @@ import numpy as np
 from scipy.stats import norm
 
 #%% Loding data
-data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\Table2.csv')
+data = pd.read_csv(r'C:\Users\USER\pythonProject\Data\Table2.csv')
 print(data.Time)
 #%% converting to time
 data['Time'] =  pd.to_datetime(data['Time'], format='%H:%M:%S %p')
@@ -77,19 +77,44 @@ print('r10= ',r10.corr(dur))
 print('l1= ',l1.corr(dur))
 print('l2= ',l2.corr(dur))
 
+
+
+
+
+#%%Plotting common range
+fig, ax = plt.subplots()
+lessthanX=norm.cdf(x=95.933, loc=99.63, scale=38.82)
+print(lessthanX)
+px=np.arange(0,95.9325,0.1)
+ax.set_ylim(0,0.012)
+ax.fill_between(px,norm.pdf(px,loc=99.63, scale=38.82),alpha=0.5, color='b')
+ax.text(-0.5,0.011, "p= ", fontsize=18)
+ax.text(15,0.011, round(lessthanX,3), fontsize=15)
+ax.text(85,0.001, 95.933, fontsize=10)
+
+
+
+
+
+
 #%% Norm fitting
 mu, std = norm.fit(data.Duration)
 
 # Plot the histogram.
-plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
+# plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
 
 # Plot the PDF.
 xmin, xmax = plt.xlim()
-x = np.linspace(0, xmax, 100)
+x = np.linspace(0, 200, 100)
 p = norm.pdf(x, mu, std)
 
 plt.plot(x, p, 'k', linewidth=2)
-title = "Fit Values: {:.2f} and {:.2f}".format(mu, std)
+title = "B1 [\u03BC: {:.3f} and \u03C3: {:.3f}]".format(mu, std)
+plt.xlabel("Assembly time (s)", fontsize=15)
+plt.ylabel("Probability Density", fontsize=15)
+
+
 plt.title(title)
 
 plt.show()
+

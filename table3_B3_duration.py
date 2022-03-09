@@ -4,7 +4,7 @@ import numpy as np
 from scipy.stats import norm
 
 #%% Loding data
-data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\table3.csv')
+data = pd.read_csv(r'C:\Users\USER\pythonProject\Data\Table3.csv')
 print(data.Time)
 #%% converting to time
 data['Time'] =  pd.to_datetime(data['Time'], format='%H:%M:%S %p')
@@ -78,18 +78,59 @@ print('l1= ',l1.corr(dur))
 print('l2= ',l2.corr(dur))
 
 #%% Norm fitting
+# Below for fitting
+# mu, std = norm.fit(data.Duration)
+#
+# # Plot the histogram.
+# plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
+#
+# # Plot the PDF.
+# xmin, xmax = plt.xlim()
+# x = np.linspace(0, xmax, 100)
+# p = norm.pdf(x, mu, std)
+#
+# plt.plot(x, p, 'k', linewidth=2)
+# title = "Fit Values: {:.3f} and {:.3f}".format(mu, std)
+# plt.title(title)
+#
+# plt.show()
+
+#%%Plotting common range
+fig, ax = plt.subplots()
+lessthanX=norm.cdf(x=95.933, loc=80.214, scale=40.881)
+print(lessthanX)
+px=np.arange(0,95.933,0.1)
+ax.set_ylim(0,0.010)
+ax.fill_between(px,norm.pdf(px,loc=80.214, scale=40.8813),alpha=0.5, color='b')
+ax.text(0,0.009, "p= ", fontsize=18)
+ax.text(25,0.009, round(lessthanX,3), fontsize=15)
+ax.text(85,0.0005, 95.933, fontsize=10)
+
+
+
+
+
+
+#%% Norm fitting
 mu, std = norm.fit(data.Duration)
 
 # Plot the histogram.
-plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
+# plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
 
 # Plot the PDF.
 xmin, xmax = plt.xlim()
-x = np.linspace(0, xmax, 100)
+x = np.linspace(0, 300, 100)
 p = norm.pdf(x, mu, std)
 
 plt.plot(x, p, 'k', linewidth=2)
-title = "Fit Values: {:.2f} and {:.2f}".format(mu, std)
+title = "B3 [\u03BC: {:.3f} and \u03C3: {:.3f}]".format(mu, std)
+plt.xlabel("Assembly time (s)", fontsize=15)
+plt.ylabel("Probability Density", fontsize=15)
+
+
 plt.title(title)
 
 plt.show()
+
+
+

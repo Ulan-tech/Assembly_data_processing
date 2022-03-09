@@ -4,7 +4,7 @@ import numpy as np
 from scipy.stats import norm
 
 #%% Loding data
-data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\HookUnconsol.csv')
+data = pd.read_csv(r'C:\Users\USER\pythonProject\Data\HookUnconsol.csv')
 print(data.Time)
 #%% converting to time
 data['Time'] =  pd.to_datetime(data['Time'], format='%H:%M:%S %p')
@@ -78,18 +78,55 @@ print('l1= ',l1.corr(dur))
 print('l2= ',l2.corr(dur))
 
 #%% Norm fitting
+# mu, std = norm.fit(data.Duration)
+#
+# # Plot the histogram.
+# plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
+#
+# # Plot the PDF.
+# xmin, xmax = plt.xlim()
+# x = np.linspace(0, xmax, 100)
+# p = norm.pdf(x, mu, std)
+#
+# plt.plot(x, p, 'k', linewidth=2)
+# title = "Fit Values of Hook_uncon: {:.3f} and {:.3f}".format(mu, std)
+# plt.title(title)
+#
+# plt.show()
+
+#%%Plotting common range
+fig, ax = plt.subplots()
+lessthanX=norm.cdf(x=72.244, loc=89.429, scale=40.800)
+print(lessthanX)
+px=np.arange(0,72.244,0.1)
+ax.set_ylim(0,0.012)
+ax.fill_between(px,norm.pdf(px,loc=89.429, scale=40.800),alpha=0.5, color='b')
+ax.text(0,0.011, "p= ", fontsize=18)
+ax.text(17,0.011, round(lessthanX,3), fontsize=15)
+ax.text(65,0.0005, 72.244, fontsize=10)
+
+
+
+
+
+
+#%% Norm fitting
 mu, std = norm.fit(data.Duration)
 
 # Plot the histogram.
-plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
+# plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
 
 # Plot the PDF.
 xmin, xmax = plt.xlim()
-x = np.linspace(0, xmax, 100)
+x = np.linspace(0, 200, 100)
 p = norm.pdf(x, mu, std)
 
 plt.plot(x, p, 'k', linewidth=2)
-title = "Fit Values of Hook_uncon: {:.2f} and {:.2f}".format(mu, std)
+title = "Hook_uncon [\u03BC: {:.3f} and \u03C3: {:.3f}]".format(mu, std)
+plt.xlabel("Assembly time (s)", fontsize=15)
+plt.ylabel("Probability Density", fontsize=15)
+
+
 plt.title(title)
 
 plt.show()
