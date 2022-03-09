@@ -1,10 +1,11 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.stats import norm
+import scipy.stats as stats
+from scipy.stats import gamma
 
 #%% Loading data
-data = pd.read_csv(r'C:\Users\USER\pythonProject\Data\HookC1.csv')
+data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\Assembly_data_processing\Data\HookC1.csv')
 print(data.Time)
 #%% converting to time
 data['Time'] =  pd.to_datetime(data['Time'], format='%H:%M:%S %p')
@@ -73,7 +74,7 @@ ax.text(65,0.0005, 72.244, fontsize=10)
 mu, std = norm.fit(data.Duration)
 
 # Plot the histogram.
-# plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
+plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
 
 # Plot the PDF.
 xmin, xmax = plt.xlim()
@@ -89,3 +90,23 @@ plt.ylabel("Probability Density", fontsize=15)
 plt.title(title)
 
 plt.show()
+#%% Fitting data to Gamma distribution
+fit_alpha, fit_loc, fit_beta=stats.gamma.fit(data.Duration)
+print(fit_alpha, fit_loc, fit_beta)
+#%% Plotting Gamma distribution from above parameters
+# plt.rcParams["figure.figsize"] = [7.50, 3.50]
+# plt.rcParams["figure.autolayout"] = True
+#
+# x = np.linspace(0, 10, 10)
+# y = stats.gamma.pdf(x, a=5, scale=0.333)
+#
+# plt.plot(x, y, "ro-", label=(r'$\alpha=0, \beta=3$'))
+# plt.legend(loc='upper right')
+#
+# plt.show()
+#%% Plot
+x=np.linspace(0,200,100)
+y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
+
+plt.plot(x,y)
+
