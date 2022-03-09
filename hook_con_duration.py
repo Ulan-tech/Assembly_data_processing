@@ -110,3 +110,4 @@ y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 
 plt.plot(x,y)
 
+

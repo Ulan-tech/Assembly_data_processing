@@ -131,6 +131,7 @@ plt.title(title)
 
 plt.show()
 
+
 #%% Fitting data to Gamma distribution
 fit_alpha, fit_loc, fit_beta=stats.gamma.fit(data.Duration)
 print(fit_alpha, fit_loc, fit_beta)
