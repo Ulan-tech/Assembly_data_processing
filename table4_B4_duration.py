@@ -122,13 +122,14 @@ xmin, xmax = plt.xlim()
 x = np.linspace(0, 200, 100)
 p = norm.pdf(x, mu, std)
 
-plt.plot(x, p, 'k', linewidth=2)
+plt.plot(x, p, label='Normal Distribution', linewidth=2)
 title = "B4 [\u03BC: {:.3f} and \u03C3: {:.3f}]".format(mu, std)
 plt.xlabel("Assembly time (s)", fontsize=15)
 plt.ylabel("Probability Density", fontsize=12)
 
 
 plt.title(title)
+plt.legend()
 
 plt.show()
 
@@ -142,6 +143,6 @@ x=np.linspace(0,200,100)
 y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 
 # plt.plot(x, p, label='Normal Distribution')
-# plt.plot(x, y, label='Gamma Distribution')
-# plt.legend()
+plt.plot(x, y, label='Gamma Distribution', color="orange")
+plt.legend()
 plt.plot(x,y)

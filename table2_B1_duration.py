@@ -26,8 +26,10 @@ data=data[data.Username==data.shift(1).Username]
 print(data)
 # data=data.drop([11,19,39])
 
+
 data.Duration = (data.Duration / np.timedelta64(1,'s')).astype(float)
 print(data.Duration)
+data=data[data.Duration<500]  #There was an outlier around 1100 sec, so it was dropped
 ax = data.Duration.plot.hist(bins=12, alpha=0.5)
 plt.title("Assembly time trials")
 plt.xlabel("Time(s)")
@@ -108,11 +110,11 @@ xmin, xmax = plt.xlim()
 x = np.linspace(0, 300, 100)
 p = norm.pdf(x, mu, std)
 
-plt.plot(x, p, 'k', linewidth=2)
+plt.plot(x, p,label='Normal Distribution',linewidth=2)
 title = "B1 [\u03BC: {:.3f} and \u03C3: {:.3f}]".format(mu, std)
 plt.xlabel("Assembly time (s)", fontsize=15)
 plt.ylabel("Probability Density", fontsize=15)
-
+plt.legend()
 
 plt.title(title)
 
@@ -127,7 +129,7 @@ x=np.linspace(0,300,100)
 y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 
 # plt.plot(x, p, label='Normal Distribution')
-# plt.plot(x, y, label='Gamma Distribution')
-# plt.legend()
+plt.plot(x, y, label='Gamma Distribution', color="Orange")
+plt.legend()
 plt.plot(x,y)
 

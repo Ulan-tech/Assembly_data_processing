@@ -34,8 +34,8 @@ plt.title("Assembly time trials")
 plt.xlabel("Time(s)")
 plt.show()
 
-data.Duration.plot()
-plt.show()
+# data.Duration.plot()
+# plt.show()
 
 
 #%%
@@ -121,15 +121,15 @@ plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
 
 # Plot the PDF.
 xmin, xmax = plt.xlim()
-x = np.linspace(0, 400, 100)
+x = np.linspace(0, 500, 150)
 p = norm.pdf(x, mu, std)
 
-plt.plot(x, p, 'k', linewidth=2)
+plt.plot(x, p,label='Normal Distribution',linewidth=2)
 title = "B2 [\u03BC: {:.3f} and \u03C3: {:.3f}]".format(mu, std)
 plt.xlabel("Assembly time (s)", fontsize=15)
 plt.ylabel("Probability Density", fontsize=15)
 
-
+plt.legend()
 plt.title(title)
 
 plt.show()
@@ -140,10 +140,10 @@ print(fit_alpha, fit_loc, fit_beta)
 print(stats.gamma.mean(*(fit_alpha, fit_loc, fit_beta)))
 
 #%% Plot
-x=np.linspace(0,400,100)
+x=np.linspace(0,500,150)
 y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 
 # plt.plot(x, p, label='Normal Distribution')
-# plt.plot(x, y, label='Gamma Distribution')
-# plt.legend()
+plt.plot(x, y, label='Gamma Distribution', color="Orange")
+plt.legend()
 plt.plot(x,y)

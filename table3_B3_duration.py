@@ -29,6 +29,8 @@ print(data)
 
 data.Duration = (data.Duration / np.timedelta64(1,'s')).astype(float)
 print(data.Duration)
+data=data[data.Duration<1700]  #There was an outlier around 1700 sec, so it was dropped
+
 ax = data.Duration.plot.hist(bins=12, alpha=0.5)
 plt.title("Assembly time trials")
 plt.xlabel("Time(s)")
@@ -39,10 +41,10 @@ plt.show()
 
 
 #%%
-data["L1"]=data.r1+data.r2+data.r3+data.r4+data.r5+data.r6+data.r7+data.r8+data.r9+data.r10
+data["L1"]=data.r1+data.r2+data.r3+data.r4+data.r5+data.r6#+data.r7+data.r8+data.r9+data.r10
 data["L1"]=data["L1"]*1000
 
-data["L2"]=data.r1**2+data.r2**2+data.r3**2+data.r4**2 +data.r5**2+data.r6**2+data.r7+data.r8+data.r9+data.r10
+data["L2"]=data.r1**2+data.r2**2+data.r3**2+data.r4**2 +data.r5**2+data.r6**2#+data.r7+data.r8+data.r9+data.r10
 data["L2"]=data.L2**0.5
 data["L2"]=data["L2"]*1000
 
@@ -123,10 +125,11 @@ xmin, xmax = plt.xlim()
 x = np.linspace(0, 400, 100)
 p = norm.pdf(x, mu, std)
 
-plt.plot(x, p, 'k', linewidth=2)
+plt.plot(x, p, label='Normal Distribution', linewidth=2)
 title = "B3 [\u03BC: {:.3f} and \u03C3: {:.3f}]".format(mu, std)
 plt.xlabel("Assembly time (s)", fontsize=15)
 plt.ylabel("Probability Density", fontsize=15)
+plt.legend()
 
 
 plt.title(title)
@@ -143,7 +146,7 @@ x=np.linspace(0,400,100)
 y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 
 # plt.plot(x, p, label='Normal Distribution')
-# plt.plot(x, y, label='Gamma Distribution')
-# plt.legend()
+plt.plot(x, y, label='Gamma Distribution', color="Orange")
+plt.legend()
 plt.plot(x,y)
 

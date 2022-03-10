@@ -27,7 +27,8 @@ data=data[data.Username==data.shift(1).Username]
 
 data.Duration = (data.Duration / np.timedelta64(1,'s')).astype(float)
 print(data.Duration)
-data=data[data.Duration>0] #it is only for hook_con to remove <0 duration
+data=data[data.Duration>0]
+data=data[data.Duration<400]#it is only for hook_con to remove <0 duration >500
 #%%plot
 ax = data.Duration.plot.hist(bins=12, alpha=0.5)
 plt.title("Assembly time trials")
@@ -79,44 +80,33 @@ plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
 
 # Plot the PDF.
 xmin, xmax = plt.xlim()
-x = np.linspace(0, 200, 100)
+x = np.linspace(0, 250, 250)
 p = norm.pdf(x, mu, std)
 
-plt.plot(x, p, 'k', linewidth=2)
+plt.plot(x, p, label='Normal Distribution', linewidth=2)
 title = "Hook_con [\u03BC: {:.3f} and \u03C3: {:.3f}]".format(mu, std)
 plt.xlabel("Assembly time (s)", fontsize=15)
 plt.ylabel("Probability Density", fontsize=15)
 
 
 plt.title(title)
+plt.legend()
 
 plt.show()
+
 #%% Fitting data to Gamma distribution
 fit_alpha, fit_loc, fit_beta=stats.gamma.fit(data.Duration)
 print(fit_alpha, fit_loc, fit_beta)
 print(stats.gamma.mean(*(fit_alpha, fit_loc, fit_beta)))
-#%% Plotting Gamma distribution from above parameters
-# plt.rcParams["figure.figsize"] = [7.50, 3.50]
-# plt.rcParams["figure.autolayout"] = True
-#
-# x = np.linspace(0, 10, 10)
-# y = stats.gamma.pdf(x, a=5, scale=0.333)
-#
-# plt.plot(x, y, "ro-", label=(r'$\alpha=0, \beta=3$'))
-# plt.legend(loc='upper right')
-#
-# plt.show()
+
 #%% Plot
-x=np.linspace(0,200,100)
-y=gamma.pdf(x,fit_alpha, fit_loc, fit_beta)
+x=np.linspace(0,250,250)
+y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 
+# plt.plot(x, p, label='Normal Distribution')
+plt.plot(x, y, label='Gamma Distribution', color="Orange")
+plt.legend()
 plt.plot(x,y)
 
 
-#%% Poisson distribution
-lyambda, k =stats.poisson.fit(data.Duration)
-print(poisson.pdf(lyambda, k))
-x=np.linspace(0,200,100)
-y=poisson.pdf(x,lyambda, k)
-plt.plot(x,y)
 
