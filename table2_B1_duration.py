@@ -105,7 +105,7 @@ plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
 
 # Plot the PDF.
 xmin, xmax = plt.xlim()
-x = np.linspace(0, 200, 100)
+x = np.linspace(0, 300, 100)
 p = norm.pdf(x, mu, std)
 
 plt.plot(x, p, 'k', linewidth=2)
@@ -121,9 +121,13 @@ plt.show()
 #%% Fitting data to Gamma distribution
 fit_alpha, fit_loc, fit_beta=stats.gamma.fit(data.Duration)
 print(fit_alpha, fit_loc, fit_beta)
-
+print(stats.gamma.mean(*(fit_alpha, fit_loc, fit_beta)))
 #%% Plot
-x=np.linspace(0,200,100)
+x=np.linspace(0,300,100)
 y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 
+# plt.plot(x, p, label='Normal Distribution')
+# plt.plot(x, y, label='Gamma Distribution')
+# plt.legend()
 plt.plot(x,y)
+

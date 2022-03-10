@@ -1,7 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.stats import norm
+import scipy.stats as stats
+from scipy.stats import gamma
 
 #%% Loding data
 data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\Assembly_data_processing\Data\HookUnconsol.csv')
@@ -114,11 +115,11 @@ ax.text(65,0.0005, 72.244, fontsize=10)
 mu, std = norm.fit(data.Duration)
 
 # Plot the histogram.
-# plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
+plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
 
 # Plot the PDF.
 xmin, xmax = plt.xlim()
-x = np.linspace(0, 200, 100)
+x = np.linspace(0, 300, 100)
 p = norm.pdf(x, mu, std)
 
 plt.plot(x, p, 'k', linewidth=2)
@@ -135,9 +136,10 @@ plt.show()
 #%% Fitting data to Gamma distribution
 fit_alpha, fit_loc, fit_beta=stats.gamma.fit(data.Duration)
 print(fit_alpha, fit_loc, fit_beta)
+print(stats.gamma.mean(*(fit_alpha, fit_loc, fit_beta)))
 
 #%% Plot
-x=np.linspace(0,200,100)
+x=np.linspace(0,300,100)
 y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 
 plt.plot(x,y)

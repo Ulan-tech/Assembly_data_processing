@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.stats as stats
 from scipy.stats import gamma
+from scipy.stats import poisson
 
 #%% Loading data
 data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\Assembly_data_processing\Data\HookC1.csv')
@@ -33,7 +34,7 @@ plt.title("Assembly time trials")
 plt.xlabel("Time(s)")
 plt.show()
 
-data.Duration.plot()
+# data.Duration.plot()
 plt.show()
 
 
@@ -93,6 +94,7 @@ plt.show()
 #%% Fitting data to Gamma distribution
 fit_alpha, fit_loc, fit_beta=stats.gamma.fit(data.Duration)
 print(fit_alpha, fit_loc, fit_beta)
+print(stats.gamma.mean(*(fit_alpha, fit_loc, fit_beta)))
 #%% Plotting Gamma distribution from above parameters
 # plt.rcParams["figure.figsize"] = [7.50, 3.50]
 # plt.rcParams["figure.autolayout"] = True
@@ -106,8 +108,15 @@ print(fit_alpha, fit_loc, fit_beta)
 # plt.show()
 #%% Plot
 x=np.linspace(0,200,100)
-y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
+y=gamma.pdf(x,fit_alpha, fit_loc, fit_beta)
 
 plt.plot(x,y)
 
+
+#%% Poisson distribution
+lyambda, k =stats.poisson.fit(data.Duration)
+print(poisson.pdf(lyambda, k))
+x=np.linspace(0,200,100)
+y=poisson.pdf(x,lyambda, k)
+plt.plot(x,y)
 

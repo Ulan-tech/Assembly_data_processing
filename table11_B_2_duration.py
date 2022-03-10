@@ -1,10 +1,11 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.stats import norm
+import scipy.stats as stats
+from scipy.stats import gamma
 
 #%% Loding data
-data = pd.read_csv(r'C:\Users\USER\pythonProject\Data\Table11.csv')
+data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\Assembly_data_processing\Data\Table11.csv')
 print(data.Time)
 #%% converting to time
 data['Time'] =  pd.to_datetime(data['Time'], format='%H:%M:%S %p')
@@ -116,11 +117,11 @@ ax.text(85,0.0005, 95.933, fontsize=10)
 mu, std = norm.fit(data.Duration)
 
 # Plot the histogram.
-# plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
+plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
 
 # Plot the PDF.
 xmin, xmax = plt.xlim()
-x = np.linspace(0, 300, 100)
+x = np.linspace(0, 400, 100)
 p = norm.pdf(x, mu, std)
 
 plt.plot(x, p, 'k', linewidth=2)
@@ -133,3 +134,16 @@ plt.title(title)
 
 plt.show()
 
+#%% Fitting data to Gamma distribution
+fit_alpha, fit_loc, fit_beta=stats.gamma.fit(data.Duration)
+print(fit_alpha, fit_loc, fit_beta)
+print(stats.gamma.mean(*(fit_alpha, fit_loc, fit_beta)))
+
+#%% Plot
+x=np.linspace(0,400,100)
+y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
+
+# plt.plot(x, p, label='Normal Distribution')
+# plt.plot(x, y, label='Gamma Distribution')
+# plt.legend()
+plt.plot(x,y)
