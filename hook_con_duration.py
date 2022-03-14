@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.stats as stats
 from scipy.stats import gamma
+from scipy.stats import norm
 from scipy.stats import poisson
 
 #%% Loading data
@@ -92,7 +93,7 @@ plt.ylabel("Probability Density", fontsize=15)
 plt.title(title)
 plt.legend()
 
-plt.show()
+# plt.show()
 
 #%% Fitting data to Gamma distribution
 fit_alpha, fit_loc, fit_beta=stats.gamma.fit(data.Duration)
@@ -107,6 +108,6 @@ y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 plt.plot(x, y, label='Gamma Distribution', color="Orange")
 plt.legend()
 plt.plot(x,y)
-
+plt.show()
 
 

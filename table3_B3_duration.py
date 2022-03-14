@@ -134,7 +134,7 @@ plt.legend()
 
 plt.title(title)
 
-plt.show()
+# plt.show()
 
 #%% Fitting data to Gamma distribution
 fit_alpha, fit_loc, fit_beta=stats.gamma.fit(data.Duration)
@@ -149,4 +149,5 @@ y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 plt.plot(x, y, label='Gamma Distribution', color="Orange")
 plt.legend()
 plt.plot(x,y)
+plt.show()
 

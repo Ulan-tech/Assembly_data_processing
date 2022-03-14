@@ -4,7 +4,7 @@ from scipy.stats import norm
 import numpy as np
 
 #%% Loading data
-data = pd.read_csv(r'C:\Users\USER\pythonProject\Data\HookC1.csv')
+data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\Assembly_data_processing\Data\HookC1.csv')
 
 
 data=data[data.Components!="Start"]

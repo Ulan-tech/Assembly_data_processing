@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.stats as stats
 from scipy.stats import gamma
-
+from scipy.stats import norm
 #%% Loding data
 data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\Assembly_data_processing\Data\HookUnconsol.csv')
 print(data.Time)
@@ -23,9 +23,7 @@ print(data.Duration)
 #%% First in trial , first rep
 
 data=data[data.Username==data.shift(1).Username]
-# print(data.Username==data.shift(1).Username)
 print(data)
-# data=data.drop([11,19,39])
 
 data.Duration = (data.Duration / np.timedelta64(1,'s')).astype(float)
 print(data.Duration)
@@ -131,7 +129,7 @@ plt.ylabel("Probability Density", fontsize=15)
 plt.title(title)
 plt.legend()
 
-plt.show()
+# plt.show()
 
 
 #%% Fitting data to Gamma distribution
@@ -140,10 +138,11 @@ print(fit_alpha, fit_loc, fit_beta)
 print(stats.gamma.mean(*(fit_alpha, fit_loc, fit_beta)))
 
 #%% Plot
-x=np.linspace(0,500,150)
+x=np.linspace(0,300,150)
 y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 
 # plt.plot(x, p, label='Normal Distribution')
 plt.plot(x, y, label='Gamma Distribution', color="Orange")
 plt.legend()
 plt.plot(x,y)
+plt.show()

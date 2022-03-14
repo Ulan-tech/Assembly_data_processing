@@ -131,7 +131,7 @@ plt.ylabel("Probability Density", fontsize=12)
 plt.title(title)
 plt.legend()
 
-plt.show()
+# plt.show()
 
 #%% Fitting data to Gamma distribution
 fit_alpha, fit_loc, fit_beta=stats.gamma.fit(data.Duration)
@@ -146,3 +146,4 @@ y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 plt.plot(x, y, label='Gamma Distribution', color="orange")
 plt.legend()
 plt.plot(x,y)
+plt.show()
