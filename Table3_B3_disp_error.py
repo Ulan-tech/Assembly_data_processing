@@ -4,7 +4,7 @@ from scipy.stats import norm
 import numpy as np
 
 #%% Loading data
-data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\pythonProject\Data\Table3.csv')
+data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\Assembly_data_processing\Data\Table3.csv')
 
 
 data=data[data.Components!="Start"]
@@ -82,7 +82,7 @@ plt.plot(x, p, 'k', linewidth=2)
 title = "Fit Values of B3 (L1): {:.4f} and {:.4f}".format(mu, std)
 plt.title(title)
 
-plt.show()
+# plt.show()
 
 #%% Norm fitting L2
 mu, std = norm.fit(data.L2)
@@ -100,4 +100,15 @@ plt.title(title)
 
 plt.show()
 
-#%% calculating probability
+#%% Lognormal fitting
+params=stats.lognorm.fit(data.L1)
+print(params)
+
+x=np.linspace(0,12.5,100)
+y=stats.lognorm.pdf(x, params[0],params[2])
+
+# plt.plot(x, p, label='Normal Distribution')
+plt.plot(x, y, label='Lognorm Distribution')
+plt.legend()
+plt.plot(x,y)
+plt.show()

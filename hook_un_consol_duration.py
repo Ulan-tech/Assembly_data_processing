@@ -52,11 +52,6 @@ r3=data.r3
 r4=data.r4
 r5=data.r5
 r6=data.r6
-r6=data.r6
-r7=data.r7
-r8=data.r8
-r9=data.r9
-r10=data.r10
 
 l2 = data.L2
 l1 = data.L1
@@ -67,10 +62,7 @@ print('r3= ',r3.corr(dur))
 print('r4= ',r4.corr(dur))
 print('r5= ',r5.corr(dur))
 print('r6= ',r6.corr(dur))
-print('r7= ',r7.corr(dur))
-print('r8= ',r8.corr(dur))
-print('r9= ',r9.corr(dur))
-print('r10= ',r10.corr(dur))
+
 
 
 print('l1= ',l1.corr(dur))

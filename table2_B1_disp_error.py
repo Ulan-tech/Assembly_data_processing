@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import norm
+from scipy import stats
 import numpy as np
 
 #%% Loading data
@@ -82,7 +83,7 @@ plt.plot(x, p, 'k', linewidth=2)
 title = "Fit Values of B1 (L1): {:.4f} and {:.4f}".format(mu, std)
 plt.title(title)
 
-plt.show()
+# plt.show()
 
 #%% Norm fitting L2
 mu, std = norm.fit(data.L2)
@@ -98,4 +99,17 @@ plt.plot(x, p, 'k', linewidth=2)
 title = "Fit Values of B1 (L2): {:.4f} and {:.4f}".format(mu, std)
 plt.title(title)
 
+plt.show()
+
+#%% Lognormal fitting
+params=stats.lognorm.fit(data.L1)
+print(params)
+
+x=np.linspace(0,20,100)
+y=stats.lognorm.pdf(x, 1.2782228555892559,3.9011774877213794)
+
+# plt.plot(x, p, label='Normal Distribution')
+plt.plot(x, y, label='Lognorm Distribution', color="Orange")
+plt.legend()
+plt.plot(x,y)
 plt.show()

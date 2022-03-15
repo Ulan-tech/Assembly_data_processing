@@ -120,13 +120,13 @@ ax.text(16,0.005, 18.306, fontsize=10)
 mu, std = norm.fit(data.L1)
 
 # Plot the histogram.
-# plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
+plt.hist(data.L1, bins=12, density=True, alpha=0.5, color='b'#, normed=True)
 
 # Plot the PDF.
-xmin, xmax = plt.xlim()
+# xmin, xmax = plt.xlim()
 x = np.linspace(0, 50, 100)
 p = norm.pdf(x, mu, std)
-
+#
 plt.plot(x, p, 'k', linewidth=2)
 title = "Hook_con (L1) [\u03BC: {:.3f} and \u03C3: {:.3f}]".format(mu, std)
 plt.xlabel("L1-norm (mm)", fontsize=15)
@@ -158,19 +158,41 @@ ax.text(8,0.005,8.880, fontsize=10)
 mu, std = norm.fit(data.L2)
 
 # Plot the histogram.
-# plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b')
+plt.hist(data.Duration, bins=12, density=True, alpha=0.5, color='b', normed=True)
 
 # Plot the PDF.
 xmin, xmax = plt.xlim()
 x = np.linspace(0, 30, 100)
-p = norm.pdf(x, mu, std)
+# p = norm.pdf(x, mu, std)
+#
+# plt.plot(x, p, 'k', linewidth=2)
+# title = "Hook_con (L2) [\u03BC: {:.3f} and \u03C3: {:.3f}]".format(mu, std)
+# plt.xlabel("L2-norm (mm)", fontsize=15)
+# plt.ylabel("Probability Density", fontsize=15)
+#
+#
+# plt.title(title)
 
-plt.plot(x, p, 'k', linewidth=2)
-title = "Hook_con (L2) [\u03BC: {:.3f} and \u03C3: {:.3f}]".format(mu, std)
-plt.xlabel("L2-norm (mm)", fontsize=15)
-plt.ylabel("Probability Density", fontsize=15)
+# plt.show()
+#%% Lognormal fitting
+params=stats.lognorm.fit(data.L1)
+print(params)
 
+x=np.linspace(10,20,150)
+y=stats.lognorm.pdf(x, params[0],params[2])
 
-plt.title(title)
+# plt.plot(x, p, label='Normal Distribution')
+plt.plot(x, y, label='Lognorm Distribution')
+plt.legend()
+plt.plot(x,y)
+plt.show()
 
+#%% Another way for lognormal
+param=stats.lognorm.fit(data.L1,floc=0)
+print(param)
+x=np.linspace(10,20,150)
+y=stats.lognorm.pdf(x, param[0],param[2])
+plt.plot(x, y, label='Lognorm Distribution')
+plt.legend()
+plt.plot(x,y,'b')
 plt.show()

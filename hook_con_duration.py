@@ -39,7 +39,29 @@ plt.show()
 # data.Duration.plot()
 plt.show()
 
+#%%
+data["L1"]=data.r1+data.r2+data.r3##+data.r5+data.r6+data.r7+data.r8+data.r9+data.r10
+data["L1"]=data["L1"]*1000
 
+data["L2"]=data.r1**2+data.r2**2+data.r3**2#+data.r4**2# +data.r5**2+data.r6**2+data.r7+data.r8+data.r9+data.r10
+data["L2"]=data.L2**0.5
+data["L2"]=data["L2"]*1000
+
+
+
+r1=data.r1
+r2=data.r2
+r3=data.r3
+
+l2 = data.L2
+l1 = data.L1
+dur = data.Duration
+print('r1= ',r1.corr(dur))
+print('r2= ',r2.corr(dur))
+print('r3= ',r3.corr(dur))
+
+print('l1= ',l1.corr(dur))
+print('l2= ',l2.corr(dur))
 #%% Norm fitting
 # mu, std = norm.fit(data.Duration)
 #
