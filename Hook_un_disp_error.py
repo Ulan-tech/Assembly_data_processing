@@ -2,7 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 import numpy as np
-
+from scipy import stats
+from scipy.optimize import minimize
 #%% Loading data
 data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\Assembly_data_processing\Data\HookUnconsol.csv')
 
@@ -26,8 +27,8 @@ print(data)
 
 
 #%% Plotting L1
-data.L1.plot()
-plt.show()
+# data.L1.plot()
+# plt.show()
 ax = data.L1.plot.hist(bins=12, alpha=0.5)
 
 plt.title("L1")
@@ -177,24 +178,80 @@ plt.title(title)
 
 plt.show()
 
+
+#%% Plotting L1
+# data.L1.plot()
+# plt.show()
+ax = data.L1.plot.hist(bins=12, alpha=0.5)
+
+plt.title("L1")
+plt.xlabel("Displacement error(mm)")
+# plt.show()
+
 #%% Lognormal fitting
 params=stats.lognorm.fit(data.L1)
 print(params)
 
 x=np.linspace(0,40,100)
-y=stats.lognorm.pdf(x, params[0],params[2])
+y=stats.lognorm.pdf(x,s=params[0],loc=params[1],scale=params[2])
 
 # plt.plot(x, p, label='Normal Distribution')
 plt.plot(x, y, label='Lognorm Distribution')
 plt.legend()
 plt.plot(x,y)
 # plt.show()
-#%% Another way for lognormal
-param=stats.lognorm.fit(data.L1,floc=0)
-print(param)
-x=np.linspace(0,40,100)
-y=stats.lognorm.pdf(x, param[0],param[2])
-plt.plot(x, y, label='Lognorm Distribution')
-plt.legend()
-plt.plot(x,y)
+mu,sigma=np.log(params[2]),params[0]
+
+#%% Goodness fit of lognormal to data.L1
+kstest(data.L1, 'lognorm', stats.lognorm.fit(data.L1))
+
+#%% IT IS THE MAIN CODE TO PLOT-1 "Finding probability density of Gamma distribution"
+fig, ax = plt.subplots()
+lessthanX=stats.lognorm.cdf(x=13.33,s=params[0], loc=params[1], scale=params[2])
+print(lessthanX)
+px=np.arange(0,200,250)
+ax.set_ylim(0,0.02)
+# ax.fill_between(px,stats.gamma.pdf(px,s=params[0], loc=params[1], scale=params[2))
+ax.text(-0.5,0.009, "p= ", fontsize=18)
+ax.text(15,0.009, round(lessthanX,3), fontsize=15)
+# ax.text(85,0.001, 90, fontsize=10)
+
+
+#%% IT IS THE MAIN CODE TO PLOT-2 "Area under curve"
+
+a,b=0,13.33  #It is the average of the two hooks
+x=np.linspace(0,60,100)
+lognormal_pdf=stats.lognorm.pdf(x,params[0],params[1],params[2])
+fig, ax = plt.subplots()
+ax.plot(x,lognormal_pdf,'r', linewidth=2)
+ax.set_ylim(bottom=0)
+
+#Shaded region
+ix=np.linspace(a,b)
+iy=stats.lognorm.pdf(ix,params[0],params[1],params[2])
+verts=[(a,0),*zip(ix,iy),(b,0)]
+poly=Polygon(verts,facecolor='0.9',edgecolor='0.5')
+ax.add_patch(poly)
+
+# ax.text(0.5 * (a + b), 30, r"$\int_a^b f(x)\mathrm{d}x$",
+#         horizontalalignment='center', fontsize=20)
+
+fig.text(0.9, 0.05, '$x$')
+fig.text(0.1, 0.9, '$y$')
+
+ax.spines.right.set_visible(False)
+ax.spines.top.set_visible(False)
+ax.xaxis.set_ticks_position('bottom')
+
+ax.set_xticks([a, b], labels=['$0$', '$13.33$'])
+
+# ax.set_yticks([])
+
 plt.show()
+print(lessthanX)
+
+
+#%% Finding the mode of lognormal dist
+max_y=max(lognormal_pdf)
+max_x=x[lognormal_pdf.argmax()]
+print (max_x, max_y)

@@ -148,3 +148,6 @@ plt.plot(x, y, label='Gamma Distribution', color="Orange")
 plt.legend()
 plt.plot(x,y)
 plt.show()
+
+#%% Goodness test fit for Gamma
+kstest(data.Duration, 'gamma', args=(fit_alpha,fit_loc, fit_beta))

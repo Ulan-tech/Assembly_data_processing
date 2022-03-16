@@ -2,6 +2,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import norm
+from scipy import stats
+from scipy.stats import gamma, kstest
+from matplotlib.patches import Polygon
+
 
 #%% Loding data
 data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\Assembly_data_processing\Data\Table2.csv')
@@ -126,11 +130,57 @@ print(fit_alpha, fit_loc, fit_beta)
 print(stats.gamma.mean(*(fit_alpha, fit_loc, fit_beta)))
 #%% Plot
 x=np.linspace(0,300,100)
-y=gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
+gamma_pdf=stats.gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
 
 # plt.plot(x, p, label='Normal Distribution')
-plt.plot(x, y, label='Gamma Distribution', color="Orange")
+# plt.hist(data.Duration,bins=50,label='Assembly time',density=True)
+plt.plot(x, gamma_pdf, label='Gamma Distribution', color="Orange")
 plt.legend()
-plt.plot(x,y)
+plt.plot(x,gamma_pdf)
+plt.show()
+#%% Goodness test of fit results
+
+kstest(data.Duration, 'gamma', args=(fit_alpha,fit_loc, fit_beta))
+
+#%% Plotting common range of Gamma distribution
+fig, ax = plt.subplots()
+lessthanX=stats.gamma.cdf(x=99.57616,a=fit_alpha, loc=fit_loc, scale=fit_beta)
+print(lessthanX)
+px=np.arange(0,100,250)
+ax.set_ylim(0,0.02)
+ax.fill_between(px,stats.gamma.pdf(px,a=fit_alpha,loc=fit_loc,scale=fit_beta))
+ax.text(-0.5,0.011, "p= ", fontsize=18)
+ax.text(15,0.011, round(lessthanX,3), fontsize=15)
+ax.text(85,0.001, 90, fontsize=10)
+
+#%% Area under curve
+
+a,b=0,99.57616
+x=np.linspace(0,300,100)
+gamma_pdf=stats.gamma.pdf(x,fit_alpha,fit_loc,fit_beta)
+fig, ax = plt.subplots()
+ax.plot(x,gamma_pdf,'r', linewidth=2)
+ax.set_ylim(bottom=0)
+
+#Shaded region
+ix=np.linspace(a,b)
+iy=stats.gamma.pdf(ix,fit_alpha,fit_loc,fit_beta)
+verts=[(a,0),*zip(ix,iy),(b,0)]
+poly=Polygon(verts,facecolor='0.9',edgecolor='0.5')
+ax.add_patch(poly)
+
+# ax.text(0.5 * (a + b), 30, r"$\int_a^b f(x)\mathrm{d}x$",
+#         horizontalalignment='center', fontsize=20)
+
+fig.text(0.9, 0.05, '$x$')
+fig.text(0.1, 0.9, '$y$')
+
+ax.spines.right.set_visible(False)
+ax.spines.top.set_visible(False)
+ax.xaxis.set_ticks_position('bottom')
+
+ax.set_xticks([a, b], labels=['$0$', '$95$'])
+# ax.set_yticks([])
+
 plt.show()
 

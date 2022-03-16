@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import norm
 import numpy as np
+from scipy import stats
 
 #%% Loading data
 data = pd.read_csv(r'C:\Users\USER\pythonProject\Data\HookUnconsol.csv')
