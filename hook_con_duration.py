@@ -195,6 +195,7 @@ ax.set_xticks([a, b], labels=['$0$', '$55.5605$'])
 plt.show()
 print(lessthanX)
 
+
 #%% Finding the mode of lognormal dist
 max_y=max(gamma_pdf)
 max_x=x[gamma_pdf.argmax()]
