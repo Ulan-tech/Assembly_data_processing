@@ -190,7 +190,7 @@ plt.plot(x,y)
 mu,sigma=np.log(params[2]),params[0]
 
 #%% Goodness fit of lognormal to data.L1
-kstest(data.L1, 'lognorm', stats.lognorm.fit(data.L1))
+stats.kstest(data.L1, 'lognorm', stats.lognorm.fit(data.L1))
 
 #%% IT IS THE MAIN CODE TO PLOT-1 "Finding probability density of Gamma distribution"
 fig, ax = plt.subplots()
@@ -210,21 +210,22 @@ a,b=0,13.33  #It is the average of the two hooks
 x=np.linspace(0,60,100)
 lognormal_pdf=stats.lognorm.pdf(x,params[0],params[1],params[2])
 fig, ax = plt.subplots()
-ax.plot(x,lognormal_pdf,'r', linewidth=2)
+ax.plot(x,lognormal_pdf,'red', linewidth=2, label='Lognorm Distribution')
 ax.set_ylim(bottom=0)
+plt.legend()
 
 #Shaded region
 ix=np.linspace(a,b)
 iy=stats.lognorm.pdf(ix,params[0],params[1],params[2])
 verts=[(a,0),*zip(ix,iy),(b,0)]
-poly=Polygon(verts,facecolor='0.9',edgecolor='0.5')
+poly=Polygon(verts,facecolor='peachpuff',edgecolor='0.5')
 ax.add_patch(poly)
 
 # ax.text(0.5 * (a + b), 30, r"$\int_a^b f(x)\mathrm{d}x$",
 #         horizontalalignment='center', fontsize=20)
 
-fig.text(0.9, 0.05, '$x$')
-fig.text(0.1, 0.9, '$y$')
+# fig.text(0.9, 0.05, '$x$')
+# fig.text(0.1, 0.9, '$y$')
 
 ax.spines.right.set_visible(False)
 ax.spines.top.set_visible(False)
@@ -232,6 +233,13 @@ ax.xaxis.set_ticks_position('bottom')
 
 ax.set_xticks([a, b], labels=['$0$', '$13.33$'])
 # ax.set_yticks([])
+plt.xlabel("Displacement error (mm)", fontsize=12)
+plt.ylabel("Probability \n Density", rotation='horizontal', fontsize=12)
+ax.yaxis.set_label_coords(-0.05,1)
+
+ax.text(3,0.005, "p= ", fontsize=12)
+ax.text(6,0.005, round(lessthanX,3), fontsize=12)
+
 
 plt.show()
 print(lessthanX)
