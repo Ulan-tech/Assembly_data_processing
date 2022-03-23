@@ -206,3 +206,12 @@ print(lessthanX)
 max_y=max(gamma_pdf)
 max_x=x[gamma_pdf.argmax()]
 print (max_x, max_y)
+
+#%% Finding pd of support volume of half-consol
+from scipy.stats import uniform
+cdf_half_consol_10_20=uniform.cdf(x=20000,loc=19932.25, scale=(48762.273-19932.25))-uniform.cdf(x=19932.25,loc=19932.25, scale=(48762.273-19932.25))
+print(cdf_half_consol_10_20)
+cdf_half_consol_10_30=uniform.cdf(x=30000,loc=19932.25, scale=(48762.273-19932.25))-uniform.cdf(x=19932.25,loc=19932.25, scale=(48762.273-19932.25))
+print(cdf_half_consol_10_30)
+cdf_half_consol_10_40=uniform.cdf(x=40000,loc=19932.25, scale=(48762.273-19932.25))-uniform.cdf(x=19932.25,loc=19932.25, scale=(48762.273-19932.25))
+print(cdf_half_consol_10_40)
