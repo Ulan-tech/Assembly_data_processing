@@ -6,7 +6,7 @@ from scipy.stats import gamma
 from scipy.stats import norm
 from matplotlib.patches import Polygon
 #%% Loading data
-data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\Assembly_data_processing\Data\HookC1.csv')
+data = pd.read_csv('.\Data\HookC1.csv')
 print(data.Time)
 #%% converting to time
 data['Time'] =  pd.to_datetime(data['Time'], format='%H:%M:%S %p')
