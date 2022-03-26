@@ -23,6 +23,7 @@ assemblyTypes = [
 
 ]
 #%% Main function
+def plotting ()
 def infor_con(hook_type, nfr1_range, nfr2_range, nfr3_range):
     p_nFR1, p_nFR2, p_nFR3 = 0, 0, 0
     assert assemblyTypes.__contains__(hook_type), "Assembly type does not match"
@@ -46,7 +47,7 @@ def infor_con(hook_type, nfr1_range, nfr2_range, nfr3_range):
             data = data[data.Edges == 8]
             data["L1"] = data.r1 + data.r2 + data.r3+data.r4+data.r5+data.r6
             data["L1"] = data["L1"] * 1000
-            p_nFR1 = nFR2(nfr2_range, data)
+            p_nFR2 = nFR2(nfr2_range, data)
 
         elif nfr3_range in nfrRanges:
             p_nFR3 = 1
