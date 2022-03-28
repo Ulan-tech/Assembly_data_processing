@@ -211,3 +211,18 @@ def nFR3_consol(nfr_range):
 #
 # print(results_df.shape)
 # results_df.to_excel('results.xlsx')
+
+def uniform_distrb(nfr3_range,min,max):
+    if hook_type == UNCONSOL:
+        x = np.linspace(10000, 18000, 9, endpoint=True)
+        hook_pdf = uniform.pdf(x=nfr3_range, loc=min, scale=(max-min))
+
+
+    elif  hook_type == HALFCONSOL:
+        x = np.linspace(19000, 50000, 9, endpoint=True)
+        hook_pdf = uniform.pdf(x=nfr3_range, loc=min, scale=(max - min))
+
+    elif hook_type == CONSOL:
+        x = np.linspace(30000, 45000, 9, endpoint=True)
+        hook_pdf = uniform.pdf(x=nfr3_range, loc=min, scale=(max - min))
+
