@@ -6,6 +6,8 @@ import math
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 
+from Uniform_plot import plot_unifor
+
 LESS = 'LESS'
 MODERATE = 'MODERATE'
 MORE = 'MORE'
@@ -184,12 +186,10 @@ def nFR2(nfr_range, data):
 def nFR3_half_consol(nfr_range):
 
     x=nfx3for[nfr_range]
-
     p_nFR3 = uniform.cdf(x=x, loc=19932.25, scale=(48762.273-19932.25))\
                  - uniform.cdf(x=19932.25, loc=19932.25, scale=(48762.273-19932.25))
 
     return p_nFR3
-
 
 def nFR3_consol(nfr_range):
 
@@ -212,17 +212,15 @@ def nFR3_consol(nfr_range):
 # print(results_df.shape)
 # results_df.to_excel('results.xlsx')
 
-def uniform_distrb(nfr3_range,min,max):
-    if hook_type == UNCONSOL:
-        x = np.linspace(10000, 18000, 9, endpoint=True)
-        hook_pdf = uniform.pdf(x=nfr3_range, loc=min, scale=(max-min))
+def uniform_distrb(nfr3_range,hook_type):
 
+    min_srange,max_srange= srange_of_assembly_types[hook_type]
+    drange=nfx3for[nfr3_range]
+    min_drange = min_srange
+    plot_unifor(min_srange, max_srange, min_drange, drange)
 
-    elif  hook_type == HALFCONSOL:
-        x = np.linspace(19000, 50000, 9, endpoint=True)
-        hook_pdf = uniform.pdf(x=nfr3_range, loc=min, scale=(max - min))
-
-    elif hook_type == CONSOL:
-        x = np.linspace(30000, 45000, 9, endpoint=True)
-        hook_pdf = uniform.pdf(x=nfr3_range, loc=min, scale=(max - min))
-
+srange_of_assembly_types ={
+    CONSOL: (31741.781,43171.249),
+    UNCONSOL: (11114.568,16755.15),
+    HALFCONSOL: (19932.25, 48762.273)
+}

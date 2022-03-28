@@ -5,6 +5,7 @@ import scipy.stats as stats
 from scipy.stats import gamma
 from scipy.stats import norm
 from matplotlib.patches import Polygon
+from scipy.stats import uniform
 #%% Loading data
 data = pd.read_csv('.\Data\HookC1.csv')
 print(data.Time)
@@ -215,47 +216,8 @@ cdf_half_consol_10_30=uniform.cdf(x=30000,loc=19932.25, scale=(48762.273-19932.2
 print(cdf_half_consol_10_30)
 cdf_half_consol_10_40=uniform.cdf(x=40000,loc=19932.25, scale=(48762.273-19932.25))-uniform.cdf(x=19932.25,loc=19932.25, scale=(48762.273-19932.25))
 print(cdf_half_consol_10_40)
-#%% Plotting uniform distribution
-
-def system_range_pdf(min,max):
-    hook_pdf=uniform.pdf(x=min,loc=min,scale=max-min)
-    return hook_pdf
-
-def uniform_step_axis(start, end, value=1,tol=10000,num_points=100):
-    x = np.linspace(start-tol,end+tol,num_points)
-    y= uniform_step(x,start,end, value)
-    return x,y
-
-def uniform_step(x, start, end, value=1):
-    up=np.heaviside(x - start, 0)
-    down=np.heaviside(end - x, 0)
-    return up * down * value
 
 
-a,b=19000, 20000  #It is the average of the two hooks
-system_range_max
-# x=np.linspace(19000,30000,1000, endpoint=True)
-pdf_half_consol_10_20=uniform.pdf(x=19932.25,loc=19932.25, scale=(48762.273-19932.25))
-# y=uniform_step(x, 19000, 30000, pdf_half_consol_10_20)
-x,y = uniform_step_axis(a,30000,pdf_half_consol_10_20, tol=1000, num_points=1000)
 
-fig, ax = plt.subplots()
-ax.plot(x,y,'black', linewidth=2, label='Uniform Distribution')
-ax.set_ylim(bottom=0)
-ax.set_ylim(0,pdf_half_consol_10_20*2)
-plt.legend()
 
-# Shaded region
-ix=np.linspace(a,b)
-iy=stats.uniform.pdf(x=ix,loc=19932.25, scale=(48762.273-19932.25))
-# iy=iy*np.ones(ix.shape)
-iy=np.max(iy)*np.ones(ix.shape)
-verts=[(a,0),*zip(ix,iy),(b,0)]
-poly=Polygon(verts,facecolor='azure',edgecolor='0.5')
-ax.add_patch(poly)
-
-plt.xlabel("Support Volume (mm3)", fontsize=12)
-plt.ylabel("Probability \n Density", fontsize=12)
-
-plt.show()
 
