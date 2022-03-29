@@ -5,6 +5,7 @@ import scipy.stats as stats
 from scipy.stats import gamma
 from scipy.stats import norm
 from matplotlib.patches import Polygon
+from scipy.stats import uniform
 #%% Loading data
 data = pd.read_csv('.\Data\HookC1.csv')
 print(data.Time)
@@ -215,21 +216,8 @@ cdf_half_consol_10_30=uniform.cdf(x=30000,loc=19932.25, scale=(48762.273-19932.2
 print(cdf_half_consol_10_30)
 cdf_half_consol_10_40=uniform.cdf(x=40000,loc=19932.25, scale=(48762.273-19932.25))-uniform.cdf(x=19932.25,loc=19932.25, scale=(48762.273-19932.25))
 print(cdf_half_consol_10_40)
-#%% Plotting uniform distribution
-a,b=10000, 20000  #It is the average of the two hooks
-x=np.linspace(19000,30000,1)
-unif_pdf=cdf_half_consol_10_20=uniform.cdf(x=20000,loc=19932.25, scale=(48762.273-19932.25))-uniform.cdf(x=19932.25,loc=19932.25, scale=(48762.273-19932.25))
 
-fig, ax = plt.subplots()
-ax.plot(x,unif_pdf,'black', linewidth=2, label='Uniform Distribution')
-ax.set_ylim(bottom=0)
-ax.set_ylim(0,0.001)
-plt.legend()
-#Shaded region
-ix=np.linspace(a,b)
-iy=stats.uniform.pdf(x=ix,loc=19932.25, scale=(48762.273-19932.25))-uniform.cdf(x=19932.25,loc=19932.25, scale=(48762.273-19932.25))
-verts=[(a,0),*zip(ix,iy),(b,0)]
-poly=Polygon(verts,facecolor='azure',edgecolor='0.5')
-ax.add_patch(poly)
 
-plt.show()
+
+
+
