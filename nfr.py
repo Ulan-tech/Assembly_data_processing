@@ -155,7 +155,7 @@ def infor_con(hook_type, nfr1_range, nfr2_range, nfr3_range):
     try:
         information_con = -math.log(p_nFR1 * p_nFR2 * p_nFR3, 2)
     except:
-        information_con = -1
+        information_con = "Infinite"
 
     return p_nFR1, p_nFR2, p_nFR3, information_con
 

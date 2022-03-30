@@ -5,14 +5,16 @@ from matplotlib.patches import Polygon
 from scipy.stats import uniform
 
 
-#%% Plotting uniform distribution
+#%% Plotting gamma distribution
 
-def system_range_uniform_pdf(min, max):
-    hook_pdf=uniform.pdf(x=min,loc=min,scale=max-min)
-    return hook_pdf
+def system_range_gamma_pdf(min, max):
+    y = gamma.pdf(x, fit_alpha, fit_loc, fit_beta)
+    hook_gamma_pdf=stats.gamma.cdf(x=55.5605,a=fit_alpha, loc=fit_loc, scale=fit_beta)
+
+    return hook_gamma_pdf
 
 def plot_unifor(min_srange,max_srange, min_drange, drange):
-    pdf_half_consol_10_20 = system_range_uniform_pdf(min_srange, max_srange)
+    pdf_half_consol_10_20 = system_range_gamma_pdf(min_srange, max_srange)
     x, y = uniform_step_axis(min_srange, max_srange, pdf_half_consol_10_20, tol=1000, num_points=1000)
 
     fig, ax = plt.subplots()
@@ -45,12 +47,3 @@ def uniform_step(x, start, end, value=1):
     up=np.heaviside(x - start, 0)
     down=np.heaviside(end - x, 0)
     return up * down * value
-
-
-#%% To illustrate
-drange = 30000
-min_srange = 19932.25
-max_srange = 48762.273
-min_drange = min_srange
-# system_range_max
-plot_unifor(min_srange,max_srange, min_drange, drange)
