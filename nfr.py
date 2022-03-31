@@ -161,6 +161,7 @@ def infor_con(hook_type, nfr1_range, nfr2_range, nfr3_range):
     return p_nFR1, p_nFR2, p_nFR3, information_con
 
 
+
 #%% Finding common range of nFR1
 def nFR1(nfr_range, data):
 

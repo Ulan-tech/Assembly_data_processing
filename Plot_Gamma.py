@@ -16,6 +16,7 @@ def loadData(filename):
     data = data[data.Duration > 0]
     data = data[data.Duration < 500]
     return data
+
 #%% Plotting gamma distribution
 
 def plot_gamma(gamma_drange, data):
