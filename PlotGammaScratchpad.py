@@ -1,5 +1,8 @@
+#%%
 import numpy as np
 import pandas as pd
+
+from Plot_Gamma import plot_gamma
 
 
 def loadData(filename):
@@ -13,5 +16,12 @@ def loadData(filename):
     data = data[data.Duration < 500]
     return data
 
-
+#%%% init test
 consolidated_data = loadData("./Data/HookUnconsol.csv")
+halfconsol_data = loadData("./Data/HookC1.csv")
+
+#%% Test 3
+plot_gamma(75, consolidated_data)
+
+#%% Test 3
+plot_gamma(75, halfconsol_data)

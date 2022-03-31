@@ -190,7 +190,7 @@ ax.spines.top.set_visible(False)
 ax.xaxis.set_ticks_position('bottom')
 # plt.plot(x, gamma_pdf, label='Gamma Distribution', color="Blue")
 
-ax.set_xticks([a, b], labels=['$0$', '$55.561$'])
+# ax.set_xticks([a, b], labels=['$0$', '$55.561$'])
 # ax.set_yticks([])
 plt.xlabel("Assembly time (s)", fontsize=12)
 plt.ylabel("Probability \n Density", rotation='horizontal', fontsize=12)
