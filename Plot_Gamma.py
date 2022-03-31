@@ -39,10 +39,10 @@ def plot_gamma(fit_shape, fit_loc, fit_scale, gamma_drange):
     plt.show()
 
 
-def graph_of_actual_gamma (shape,location, scale,tol=150, num_points=100):
-    myu=stats.gamma.mean(*(shape,location,scale))
+def graph_of_actual_gamma (shape, location, scale, tol=150, num_points=100):
+    myu=stats.gamma.mean(*(shape, location,scale))
     x = np.linspace(0, myu + tol, num_points)
-    y= stats.gamma.pdf(x,shape, location,scale)
+    y= stats.gamma.pdf(x,shape, location, scale)
     return x,y
 
 #%% To illustrate the gamma distribution
