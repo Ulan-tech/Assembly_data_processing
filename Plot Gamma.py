@@ -13,6 +13,7 @@ def system_range_gamma_pdf(min, max):
 
     return hook_gamma_pdf
 
+
 def plot_unifor(min_srange,max_srange, min_drange, drange):
     pdf_half_consol_10_20 = system_range_gamma_pdf(min_srange, max_srange)
     x, y = uniform_step_axis(min_srange, max_srange, pdf_half_consol_10_20, tol=1000, num_points=1000)
