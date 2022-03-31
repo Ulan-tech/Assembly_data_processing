@@ -15,20 +15,21 @@ def find_gamma_prob(drange, data):
 
 def plot_gamma(fit_shape, fit_loc, fit_scale, gamma_drange):
     common_range = find_gamma_prob(gamma_drange, data)
-    x, y = graph_of_actual_gamma(fit_shape, fit_loc, common_range, tol=1000, num_points=1000)
+    x, y = graph_of_actual_gamma(fit_shape, fit_loc, common_range, tol=150, num_points=1000)
 
     fig, ax = plt.subplots()
-    ax.plot(x, y, 'black', linewidth=2, label='Uniform Distribution')
+    ax.plot(x, y, 'black', linewidth=2, label='Gamma Distribution')
     ax.set_ylim(bottom=0)
-    ax.set_ylim(0, common_range * 2)
+    ax.set_ylim(0, max(common_range) * 2)
     plt.legend()
 
+    min_gamma=0
     # Shaded region
-    ix = np.linspace(fit_scale, gamma_drange)
+    ix = np.linspace(0, gamma_drange)
     iy = stats.gamma.pdf(ix,fit_shape,fit_loc,fit_scale)
     # iy=iy*np.ones(ix.shape)
     iy = np.max(iy) * np.ones(ix.shape)
-    verts = [(0, 0), *zip(ix, iy), (gamma_drange, 0)]
+    verts = [(min_gamma, 0), *zip(ix, iy), (gamma_drange, 0)]
     poly = Polygon(verts, facecolor='azure', edgecolor='0.5')
     ax.add_patch(poly)
 
@@ -38,8 +39,14 @@ def plot_gamma(fit_shape, fit_loc, fit_scale, gamma_drange):
     plt.show()
 
 
-def graph_of_actual_gamma(start, end, tol=10000, num_points=100):
-    x = np.linspace(start-tol,end+tol,num_points)
-    y= stats.gamma.pdf(x,start,end, value)
+def graph_of_actual_gamma (shape,location, scale,tol=150, num_points=100):
+    myu=stats.gamma.mean(*(shape,location,scale))
+    x = np.linspace(0, myu + tol, num_points)
+    y= stats.gamma.pdf(x,shape, location,scale)
     return x,y
+
+#%% To illustrate the gamma distribution
+drange = 75
+
+find_gamma_prob(drange, data)
 
