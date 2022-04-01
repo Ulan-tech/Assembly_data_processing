@@ -2,7 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.stats as stats
 from matplotlib.patches import Polygon
+import pandas as pd
 from scipy.stats import gamma
+
 
 
 #%% Fitting values
@@ -36,7 +38,7 @@ def plot_gamma(gamma_drange, data):
     ix = np.linspace(0, gamma_drange)
     iy = stats.gamma.pdf(ix,fit_shape,fit_loc,fit_scale)
     # iy=iy*np.ones(ix.shape)
-    iy = np.max(iy) * np.ones(ix.shape)
+    # iy = np.max(iy) * np.ones(ix.shape)
     verts = [(min_gamma, 0), *zip(ix, iy), (gamma_drange, 0)]
     poly = Polygon(verts, facecolor='azure', edgecolor='0.5')
     ax.add_patch(poly)
