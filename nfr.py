@@ -227,13 +227,13 @@ srange_of_assembly_types ={
     HALFCONSOL: (19932.25, 48762.273)
 }
 
-def gamma_distrb(nfr1_range, hook_type_gamma):
-    fit_shape, fit_loc, fit_scale, gamma_drange = fitting_values[hook_type_gamma]
-    gamma_drange=nfx1for[nfr1_range]
-    plot_gamma(fit_shape, fit_loc, fit_scale, gamma_drange)
-
-fitting_values = {
-        UNCONSOL: (7.212024716, -15.95055033, 15.41785733),
-        HALFCONSOL: (1.805691, 14.42043, 22.49916)
-}
+# def gamma_distrb(nfr1_range, hook_type_gamma):
+#     fit_shape, fit_loc, fit_scale, gamma_drange = fitting_values[hook_type_gamma]
+#     gamma_drange=nfx1for[nfr1_range]
+#     plot_gamma(fit_shape, fit_loc, fit_scale, gamma_drange)
+#
+# fitting_values = {
+#         UNCONSOL: (7.212024716, -15.95055033, 15.41785733),
+#         HALFCONSOL: (1.805691, 14.42043, 22.49916)
+# }
 
