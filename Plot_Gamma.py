@@ -55,6 +55,7 @@ def graph_of_actual_gamma (shape, location, scale, tol=150, num_points=1000):
     y= stats.gamma.pdf(x, shape, location, scale)
     return x,y
 
+
 #%% To illustrate the gamma distribution
 drange = 75
 halfconsol_data = loadData("./Data/HookC1.csv")

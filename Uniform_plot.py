@@ -47,6 +47,7 @@ def uniform_step(x, start, end, value=1):
     return up * down * value
 
 
+
 #%% To illustrate
 drange = 30000
 min_srange = 19932.25
