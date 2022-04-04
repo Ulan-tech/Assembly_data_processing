@@ -117,6 +117,7 @@ def infor_con(hook_type, nfr1_range, nfr2_range, nfr3_range):
             data = data[data.Duration > 0]
             data = data[data.Duration < 500]
             p_nFR1 = nFR1(nfr1_range, data)
+            gamma_distrb(nfr1_range, data)
 
         if nfr2_range in nfrRanges:
             data = data[data.Edges == 8]
@@ -227,13 +228,13 @@ srange_of_assembly_types ={
     HALFCONSOL: (19932.25, 48762.273)
 }
 
-# def gamma_distrb(nfr1_range, hook_type_gamma):
-#     fit_shape, fit_loc, fit_scale, gamma_drange = fitting_values[hook_type_gamma]
-#     gamma_drange=nfx1for[nfr1_range]
-#     plot_gamma(fit_shape, fit_loc, fit_scale, gamma_drange)
-#
-# fitting_values = {
-#         UNCONSOL: (7.212024716, -15.95055033, 15.41785733),
-#         HALFCONSOL: (1.805691, 14.42043, 22.49916)
-# }
+def gamma_distrb(nfr1_range, data):
+    # fit_shape, fit_loc, fit_scale = fitting_values[hook_type_gamma]
+    gamma_drange=nfx1for[nfr1_range]
+    plot_gamma(gamma_drange, data)
+
+fitting_values = {
+        UNCONSOL: (7.212024716, -15.95055033, 15.41785733),
+        HALFCONSOL: (1.805691, 14.42043, 22.49916)
+}
 
