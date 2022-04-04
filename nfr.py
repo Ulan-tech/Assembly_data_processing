@@ -93,7 +93,51 @@ nfx3for = {
 
 
 
+datafilenames = {
+    UNCONSOL: "./Data/HookUnconsol.csv",
+    HALFCONSOL: "./Data/HookC1.csv",
+    CONSOL: None
+}
 
+
+edgesOfhook = {
+    UNCONSOL: 8,
+    HALFCONSOL: 5,
+    CONSOL: None
+}
+
+
+def get_data_file (assembly_type):
+    """
+    Loads the data and cleans it
+    :param assembly_type:
+    :return:
+    """
+    file_name = datafilenames[assembly_type]
+    if file_name == None:
+        return None
+
+    data = pd.read_csv(file_name)
+    data = data[data.Components != "Start"]
+    data['Time'] = pd.to_datetime(data['Time'], format='%H:%M:%S %p')
+
+    data['Duration'] = data.Time - data.Time.shift(1)
+    data = data[data.Username == data.shift(1).Username]
+    data.Duration = (data.Duration / np.timedelta64(1, 's')).astype(float)
+    data = data[data.Duration > 0]
+    data = data[data.Duration < 500]
+    # Edge Filter
+    edges = edgesOfhook[assembly_type]
+    data = data[data.Edges == edges]
+    # L1 filter
+    if UNCONSOL == assembly_type:
+        data["L1"] = data.r1 + data.r2 + data.r3 + data.r4 + data.r5 + data.r6
+        data["L1"] = data["L1"] * 1000
+    elif HALFCONSOL  == assembly_type:
+        data["L1"] = data.r1 + data.r2 + data.r3
+        data["L1"] = data["L1"] * 1000
+
+    return data
 
 
 
@@ -102,57 +146,35 @@ nfx3for = {
 def infor_con(hook_type, nfr1_range, nfr2_range, nfr3_range):
     p_nFR1, p_nFR2, p_nFR3 = 0, 0, 0
     assert assemblyTypes.__contains__(hook_type), "Assembly type does not match"
+    data = get_data_file(hook_type)
 
     if hook_type == UNCONSOL:
-        data = pd.read_csv("./Data/HookUnconsol.csv")
-        data = data[data.Components != "Start"]
-        data['Time'] = pd.to_datetime(data['Time'], format='%H:%M:%S %p')
 
         if nfr1_range in nfrRanges:
-            data['Duration'] = data.Time - data.Time.shift(1)
-            data = data[data.Username == data.shift(1).Username]
 
-            data.Duration = (data.Duration / np.timedelta64(1, 's')).astype(float)
-
-            data = data[data.Duration > 0]
-            data = data[data.Duration < 500]
             p_nFR1 = nFR1(nfr1_range, data)
             gamma_distrb(nfr1_range, data)
 
         if nfr2_range in nfrRanges:
-            data = data[data.Edges == 8]
-            data["L1"] = data.r1 + data.r2 + data.r3+data.r4+data.r5+data.r6
-            data["L1"] = data["L1"] * 1000
             p_nFR2 = nFR2(nfr2_range, data)
 
         if nfr3_range in nfrRanges:
-            p_nFR3 = 1
+            p_nFR3 = nFR3(nfr3_range, hook_type)
 
     elif hook_type == HALFCONSOL:
-        data = pd.read_csv('./Data/HookC1.csv')
-        data = data[data.Components != "Start"]
-        data['Time'] = pd.to_datetime(data['Time'], format='%H:%M:%S %p')
-
         if nfr1_range in nfrRanges:
-            data['Duration'] = data.Time - data.Time.shift(1)
-            data = data[data.Username == data.shift(1).Username]
-            data.Duration = (data.Duration / np.timedelta64(1, 's')).astype(float)
-            data = data[data.Duration > 0]
-            data = data[data.Duration < 500]
             p_nFR1 = nFR1(nfr1_range, data)
+            gamma_distrb(nfr1_range, data)
 
         if nfr2_range  in nfrRanges:
-            data = data[data.Edges == 5]
-            data["L1"] = data.r1 + data.r2 + data.r3
-            data["L1"] = data["L1"] * 1000
             p_nFR2 = nFR2(nfr2_range, data)
 
         if nfr3_range:
-            p_nFR3 = nFR3_half_consol(nfr3_range)
+            p_nFR3 = nFR3(nfr3_range, hook_type)
 
     elif hook_type == CONSOL:
         p_nFR1, p_nFR2 = 1.0,  1.0
-        p_nFR3 = nFR3_consol(nfr3_range)
+        p_nFR3 = nFR3(nfr3_range, hook_type)
     else: raise Exception("Unknown assembly")
     try:
         information_con = -math.log(p_nFR1 * p_nFR2 * p_nFR3, 2)
@@ -186,21 +208,45 @@ def nFR2(nfr_range, data):
 
 
 #%% nFR3_half_consol
-def nFR3_half_consol(nfr_range):
 
-    x=nfx3for[nfr_range]
-    p_nFR3 = uniform.cdf(x=x, loc=19932.25, scale=(48762.273-19932.25))\
-                 - uniform.cdf(x=19932.25, loc=19932.25, scale=(48762.273-19932.25))
+srange_of_assembly_types ={
+    CONSOL: (31741.781,43171.249),
+    UNCONSOL: (11114.568,16755.15),
+    HALFCONSOL: (19932.25, 48762.273)
+}
 
+
+
+def nFR3 (nfr_range, assembly_type):
+    x = nfx3for[nfr_range]
+    min, max  = srange_of_assembly_types[assembly_type]
+    p_nFR3 = uniform.cdf(x=x, loc=min, scale=(max - min)) \
+             - uniform.cdf(x=min, loc=min, scale=(max - min))
     return p_nFR3
 
-def nFR3_consol(nfr_range):
 
-    x=nfx3for[nfr_range]
-    p_nFR3 = uniform.cdf(x=x, loc=31741.781, scale=(43171.249-31741.781))\
-                 - uniform.cdf(x=31741.781,loc=31741.781, scale=(43171.249-31741.781))
+def uniform_distrb(nfr3_range,hook_type):
 
-    return p_nFR3
+    min_srange,max_srange= srange_of_assembly_types[hook_type]
+    drange=nfx3for[nfr3_range]
+    min_drange = min_srange
+    plot_unifor(min_srange, max_srange, min_drange, drange)
+
+
+
+
+def gamma_distrb(nfr1_range, data):
+
+    gamma_drange=nfx1for[nfr1_range]
+    plot_gamma(gamma_drange, data)
+
+
+
+def lognorm_distrb(nfr2_range,data):
+
+    lognorm_drange=nfx2for[nfr2_range]
+    plot_lognorm(lognorm_drange,data)
+
 
 
 # results_df = pd.DataFrame()
@@ -214,27 +260,3 @@ def nFR3_consol(nfr_range):
 #
 # print(results_df.shape)
 # results_df.to_excel('results.xlsx')
-
-def uniform_distrb(nfr3_range,hook_type):
-
-    min_srange,max_srange= srange_of_assembly_types[hook_type]
-    drange=nfx3for[nfr3_range]
-    min_drange = min_srange
-    plot_unifor(min_srange, max_srange, min_drange, drange)
-
-srange_of_assembly_types ={
-    CONSOL: (31741.781,43171.249),
-    UNCONSOL: (11114.568,16755.15),
-    HALFCONSOL: (19932.25, 48762.273)
-}
-
-def gamma_distrb(nfr1_range, data):
-    # fit_shape, fit_loc, fit_scale = fitting_values[hook_type_gamma]
-    gamma_drange=nfx1for[nfr1_range]
-    plot_gamma(gamma_drange, data)
-
-fitting_values = {
-        UNCONSOL: (7.212024716, -15.95055033, 15.41785733),
-        HALFCONSOL: (1.805691, 14.42043, 22.49916)
-}
-
