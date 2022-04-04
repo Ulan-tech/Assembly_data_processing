@@ -42,6 +42,7 @@ def plot_gamma(gamma_drange, data):
     plt.xlabel("Assembly time (s)", fontsize=12)
     plt.ylabel("Probability Density", fontsize=12)
     plt.show()
+    return fig
 
 #%% To illustrate the gamma distribution
 # drange = 75

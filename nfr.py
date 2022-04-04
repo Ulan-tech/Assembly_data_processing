@@ -8,6 +8,7 @@ from matplotlib.patches import Polygon
 
 from Uniform_plot import plot_unifor
 from Plot_Gamma import plot_gamma
+from plot_lognorm import plot_lognorm
 
 LESS = 'LESS'
 MODERATE = 'MODERATE'
@@ -218,15 +219,15 @@ def uniform_distrb(nfr3_range,hook_type):
 
 
 
-def gamma_distrb(nfr1_range, data):
-
+def gamma_distrb(nfr1_range, assembly_type):
+    data = get_duration_data(assembly_type)
     gamma_drange=nfx1for[nfr1_range]
     plot_gamma(gamma_drange, data)
 
 
 
-def lognorm_distrb(nfr2_range,data):
-
+def lognorm_distrb(nfr2_range,assembly_type):
+    data = get_disp_data(assembly_type)
     lognorm_drange=nfx2for[nfr2_range]
     plot_lognorm(lognorm_drange,data)
 

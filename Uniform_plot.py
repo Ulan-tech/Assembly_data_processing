@@ -34,7 +34,7 @@ def plot_unifor(min_srange,max_srange, min_drange, drange):
     plt.ylabel("Probability \n Density", fontsize=12)
 
     plt.show()
-
+    return fig
 
 def uniform_step_axis(start, end, value=1,tol=10000,num_points=100):
     x = np.linspace(start-tol,end+tol,num_points)
@@ -48,10 +48,10 @@ def uniform_step(x, start, end, value=1):
 
 
 
-#%% To illustrate
-drange = 30000
-min_srange = 19932.25
-max_srange = 48762.273
-min_drange = min_srange
-# system_range_max
-plot_unifor(min_srange,max_srange, min_drange, drange)
+# #%% To illustrate
+# drange = 30000
+# min_srange = 19932.25
+# max_srange = 48762.273
+# min_drange = min_srange
+# # system_range_max
+# plot_unifor(min_srange,max_srange, min_drange, drange)

@@ -51,7 +51,7 @@ def plot_lognorm(lognorm_drange, data):
 
     plt.legend()
     plt.show()
-
+    return fig
 
 
 #%% To illustrate the gamma distribution
