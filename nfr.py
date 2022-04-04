@@ -106,26 +106,22 @@ edgesOfhook = {
     CONSOL: None
 }
 
-
-def get_data_file (assembly_type):
-    """
-    Loads the data and cleans it
-    :param assembly_type:
-    :return:
-    """
-    file_name = datafilenames[assembly_type]
-    if file_name == None:
+def get_duration_data(assembly_type):
+    data=  get_data_file(assembly_type)
+    if assembly_type == CONSOL:
         return None
-
-    data = pd.read_csv(file_name)
-    data = data[data.Components != "Start"]
-    data['Time'] = pd.to_datetime(data['Time'], format='%H:%M:%S %p')
 
     data['Duration'] = data.Time - data.Time.shift(1)
     data = data[data.Username == data.shift(1).Username]
     data.Duration = (data.Duration / np.timedelta64(1, 's')).astype(float)
     data = data[data.Duration > 0]
     data = data[data.Duration < 500]
+    return data
+
+def get_disp_data(assembly_type):
+    data= get_data_file (assembly_type)
+    if assembly_type == CONSOL:
+        return None
     # Edge Filter
     edges = edgesOfhook[assembly_type]
     data = data[data.Edges == edges]
@@ -133,10 +129,18 @@ def get_data_file (assembly_type):
     if UNCONSOL == assembly_type:
         data["L1"] = data.r1 + data.r2 + data.r3 + data.r4 + data.r5 + data.r6
         data["L1"] = data["L1"] * 1000
-    elif HALFCONSOL  == assembly_type:
+    elif HALFCONSOL == assembly_type:
         data["L1"] = data.r1 + data.r2 + data.r3
         data["L1"] = data["L1"] * 1000
+    return data
 
+def get_data_file (assembly_type):
+    file_name = datafilenames[assembly_type]
+    if file_name == None:
+        return None
+    data = pd.read_csv(file_name)
+    data = data[data.Components != "Start"]
+    data['Time'] = pd.to_datetime(data['Time'], format='%H:%M:%S %p')
     return data
 
 
@@ -144,38 +148,13 @@ def get_data_file (assembly_type):
 
 
 def infor_con(hook_type, nfr1_range, nfr2_range, nfr3_range):
-    p_nFR1, p_nFR2, p_nFR3 = 0, 0, 0
+
     assert assemblyTypes.__contains__(hook_type), "Assembly type does not match"
-    data = get_data_file(hook_type)
+    p_nFR1 = nFR1(nfr1_range, hook_type)
+    p_nFR2 = nFR2(nfr2_range, hook_type)
+    p_nFR3 = nFR3(nfr3_range, hook_type)
 
-    if hook_type == UNCONSOL:
 
-        if nfr1_range in nfrRanges:
-
-            p_nFR1 = nFR1(nfr1_range, data)
-            gamma_distrb(nfr1_range, data)
-
-        if nfr2_range in nfrRanges:
-            p_nFR2 = nFR2(nfr2_range, data)
-
-        if nfr3_range in nfrRanges:
-            p_nFR3 = nFR3(nfr3_range, hook_type)
-
-    elif hook_type == HALFCONSOL:
-        if nfr1_range in nfrRanges:
-            p_nFR1 = nFR1(nfr1_range, data)
-            gamma_distrb(nfr1_range, data)
-
-        if nfr2_range  in nfrRanges:
-            p_nFR2 = nFR2(nfr2_range, data)
-
-        if nfr3_range:
-            p_nFR3 = nFR3(nfr3_range, hook_type)
-
-    elif hook_type == CONSOL:
-        p_nFR1, p_nFR2 = 1.0,  1.0
-        p_nFR3 = nFR3(nfr3_range, hook_type)
-    else: raise Exception("Unknown assembly")
     try:
         information_con = -math.log(p_nFR1 * p_nFR2 * p_nFR3, 2)
     except:
@@ -186,8 +165,10 @@ def infor_con(hook_type, nfr1_range, nfr2_range, nfr3_range):
 
 
 #%% Finding common range of nFR1
-def nFR1(nfr_range, data):
-
+def nFR1(nfr_range, assembly_type):
+    if CONSOL == assembly_type:
+        return 1.0
+    data=get_duration_data(assembly_type)
     x = nfx1for[nfr_range]
 
     fit_alpha, fit_loc, fit_beta = stats.gamma.fit(data.Duration)
@@ -197,8 +178,10 @@ def nFR1(nfr_range, data):
 
 
 #%% Finding common range of nFR2
-def nFR2(nfr_range, data):
-
+def nFR2(nfr_range, assembly_type):
+    if CONSOL == assembly_type:
+        return 1.0
+    data = get_disp_data(assembly_type)
     x = nfx2for[nfr_range]
 
     params = stats.lognorm.fit(data.L1)
