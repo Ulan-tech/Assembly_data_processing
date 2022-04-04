@@ -1,8 +1,13 @@
+import io
+
+import PIL
 import numpy as np
 import pandas as pd
+from PIL.Image import Image
 from scipy import stats
 from scipy.stats import uniform
 import math
+
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 
@@ -214,9 +219,8 @@ def uniform_distrb(nfr3_range,hook_type):
     min_srange,max_srange= srange_of_assembly_types[hook_type]
     drange=nfx3for[nfr3_range]
     min_drange = min_srange
-    plot_unifor(min_srange, max_srange, min_drange, drange)
-
-
+    fig =plot_unifor(min_srange, max_srange, min_drange, drange)
+    return fig
 
 
 def gamma_distrb(nfr1_range, assembly_type):

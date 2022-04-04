@@ -14,9 +14,11 @@ def system_range_uniform_pdf(min, max):
 def plot_unifor(min_srange,max_srange, min_drange, drange):
     pdf_half_consol_10_20 = system_range_uniform_pdf(min_srange, max_srange)
     x, y = uniform_step_axis(min_srange, max_srange, pdf_half_consol_10_20, tol=1000, num_points=1000)
-
     fig, ax = plt.subplots()
-    ax.plot(x, y, 'black', linewidth=2, label='Uniform Distribution')
+
+
+    plt.plot(x, y, 'black', linewidth=2, label='Uniform Distribution')
+
     ax.set_ylim(bottom=0)
     ax.set_ylim(0, pdf_half_consol_10_20 * 2)
     plt.legend()
