@@ -44,8 +44,8 @@ def plot_gamma(gamma_drange, data):
     plt.show()
 
 #%% To illustrate the gamma distribution
-drange = 75
-halfconsol_data = loadData("./Data/HookC1.csv")
-plot_gamma(drange, halfconsol_data)
+# drange = 75
+# halfconsol_data = loadData("./Data/HookC1.csv")
+# plot_gamma(drange, halfconsol_data)
 
 
