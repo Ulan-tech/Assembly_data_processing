@@ -1,27 +1,28 @@
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
-
+from tkinter import *
 import nfr as nfr
 
 nfrRange = nfr.nfrRanges
 
+IMAGE_SIZE = 600
+
+def updateImage(canvasWithItemconfig, imageFilename):
+    uniformImage = PhotoImage(file=imageFilename)
+    canvasWithItemconfig.itemconfig(canvasWithItemconfig.image_container, image=uniformImage)
+    canvasWithItemconfig.image = uniformImage
 
 def printTest():
-    print(currentAssembly.get())
-    print(currentnfr1.get())
-    print(currentnfr2.get())
-    print(currentnfr3.get())
     nfr1, nfr2, nfr3, info = nfr.infor_con(currentAssembly.get(), currentnfr1.get(), currentnfr2.get(),
                                            currentnfr3.get())
     lbl.config(text=f"Nfr1:{nfr1}\n Nfr2:{nfr2}\n Nfr3:{nfr3}\n info:{info}")
-    fig =  nfr.uniform_distrb(currentnfr3.get(), currentAssembly.get())
-    graph1 = FigureCanvasTkAgg(fig, master=window)
-    graph1.draw()
-    graph1.get_tk_widget().pack()
-    # graph1.image =
+    nfr.uniform_distrb(currentnfr3.get(), currentAssembly.get())
+    updateImage(unformCanvas, nfr.UNIFORM_GRAPH_FILENAME)
+    nfr.gamma_distrb(currentnfr1.get(), currentAssembly.get())
+    updateImage(gamma_Canvas, nfr.GAMMA_GRAPH_FILENAME)
+    nfr.lognorm_distrb(currentnfr2.get(),currentAssembly.get())
+    updateImage(log_Canvas, nfr.LOG_GRAPH_FILENAME)
+    nfr.gamma_distrb(currentnfr3.get(), currentAssembly.get())
 
 
-from tkinter import *
 
 window = Tk()
 
@@ -59,6 +60,19 @@ btn.place(x=80, y=100)
 lbl = Label(window, text="Results occur here", fg='red', font=("Helvetica", 16))
 lbl.pack()
 
+testImage = PhotoImage(file = "1.png")
+
+unformCanvas= Canvas(window, width=IMAGE_SIZE, height= IMAGE_SIZE)
+unformCanvas.place(x=0, y=400)
+unformCanvas.image_container =unformCanvas.create_image(0, 0, anchor="nw", image=testImage)
+
+gamma_Canvas= Canvas(window, width=IMAGE_SIZE, height= IMAGE_SIZE)
+gamma_Canvas.place(x=IMAGE_SIZE, y=400)
+gamma_Canvas.image_container =gamma_Canvas.create_image(0, 0, anchor="nw", image=testImage)
+
+log_Canvas= Canvas(window, width=IMAGE_SIZE, height= IMAGE_SIZE)
+log_Canvas.place(x=2*IMAGE_SIZE, y=400)
+log_Canvas.image_container =log_Canvas.create_image(0, 0, anchor="nw", image=testImage)
 
 
 # lbl.place(x=60, y=50)
@@ -67,3 +81,4 @@ txtfld.place(x=80, y=150)
 window.title('Hello Python')
 window.geometry("1000x600+10+10")
 window.mainloop()
+

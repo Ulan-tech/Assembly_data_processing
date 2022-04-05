@@ -1,18 +1,17 @@
-import io
 
-import PIL
-import numpy as np
-import pandas as pd
-from PIL.Image import Image
-from scipy import stats
-from scipy.stats import uniform
+GAMMA_GRAPH_FILENAME = "gamma.png"
+LOG_GRAPH_FILENAME = "log.png"
+UNIFORM_GRAPH_FILENAME = "uniform.png"
 import math
 
 import matplotlib.pyplot as plt
-from matplotlib.patches import Polygon
+import numpy as np
+import pandas as pd
+from scipy import stats
+from scipy.stats import uniform
 
-from Uniform_plot import plot_unifor
 from Plot_Gamma import plot_gamma
+from Uniform_plot import plot_unifor
 from plot_lognorm import plot_lognorm
 
 LESS = 'LESS'
@@ -215,27 +214,26 @@ def nFR3 (nfr_range, assembly_type):
 
 
 def uniform_distrb(nfr3_range,hook_type):
-
     min_srange,max_srange= srange_of_assembly_types[hook_type]
     drange=nfx3for[nfr3_range]
     min_drange = min_srange
     fig =plot_unifor(min_srange, max_srange, min_drange, drange)
-    return fig
+    fig.savefig(UNIFORM_GRAPH_FILENAME)
+
 
 
 def gamma_distrb(nfr1_range, assembly_type):
     data = get_duration_data(assembly_type)
     gamma_drange=nfx1for[nfr1_range]
-    plot_gamma(gamma_drange, data)
-
+    fig =plot_gamma(gamma_drange, data)
+    fig.savefig(GAMMA_GRAPH_FILENAME)
 
 
 def lognorm_distrb(nfr2_range,assembly_type):
     data = get_disp_data(assembly_type)
     lognorm_drange=nfx2for[nfr2_range]
-    plot_lognorm(lognorm_drange,data)
-
-
+    fig =plot_lognorm(lognorm_drange,data)
+    fig.savefig(LOG_GRAPH_FILENAME)
 
 # results_df = pd.DataFrame()
 #

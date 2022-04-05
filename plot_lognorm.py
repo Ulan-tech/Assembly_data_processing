@@ -41,8 +41,8 @@ def plot_lognorm(lognorm_drange, data):
 
     ax.add_patch(poly)
 
-    ax.spines.right.set_visible(False)
-    ax.spines.top.set_visible(False)
+    # ax.spines.right.set_visible(False)
+    # ax.spines.top.set_visible(False)
     ax.xaxis.set_ticks_position('bottom')
 
     plt.xlabel("Displacement error (mm)", fontsize=12)
