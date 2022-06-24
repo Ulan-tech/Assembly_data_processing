@@ -1,52 +1,29 @@
 import numpy as np
 import pandas pd
 
-#%% Asking for physics input values (database collection)
-customer_name=input("Enter customer name:")
 
-hatch_distance_str=input("Enter hatch distance:")
-hatch_distance=int(hatch_distance_str)
-
-layer_thickness_str=input("Enter layer thickness in um:")
-layer_thickness=int(layer_thickness_str)
-
-number_of_layers_str=input("Enter number of layers:")
-number_of_layers=int(number_of_layers_str)
-
-scan_speed_str=(input("Enter scan speed in mm/s")
-scan_speed=int(scan_speed_str)
-#%% Asking for physics input values (actually used for cost estimation & database collection)
-part_volume_str=input("Enter part volume in mm3:")
-part_volume=int(part_volume_str)
-
-support_vol_str=input("Enter support volume in mm3:")
-support_vol=int(support_vol_str)
-
-bounding_box_str=input("Enter bounding box volume in mm3:")
-bounding_box=int(bounding_box_str)
-
-part_surface_area_str=input("Enter part surface area in mm2")
-part_surface_area=int(part_surface_area_str)
-
-materials=input
 
 
 #%% Total cost equation
-def cost_total:
+def cost_total (part_volume, support_vol, material_type, number_of_parts):
+    if inconel==material_type:
+        return True
+
     c_machine=T_build*c_machrate
     cp_mat=c_part+ c_sup+c_scrap
     c_build=c_machine + c_filter + c_gas + c_rl
     c_post=c_mp+c_wc+c_ht
+
     if T_build>=240:
         c_filter=2*c_filter_porous
     elif T_build<240
         c_filter=c_filter_porous
-    return 1/(1-F)*(cp_mat+c_build+c_post)
+    return 1/(1-F)*(cp_mat+c_build+c_post)*number_of_parts
 
 
 
 #%% Material cost
-materials= [inconel,
+material_type= [inconel,
             maraging_steel,
             ss316l,
             ti_grade2,
@@ -61,30 +38,30 @@ cost_material = [
 
 inconel={
     c_part:part_volume*157300,
-    c_sup:sup_in_kg*157300,
+    c_sup:support_vol*157300,
     scrap:c_part*0.15
 }
 
 maraging_steel={
     c_part: part_volume * 206800,
-    c_sup: sup_in_kg * 206800,
+    c_sup: support_vol * 206800,
     scrap: c_part * 0.15
 }
 
 ss316l={
     c_part: part_volume * 205000,
-    c_sup: sup_in_kg * 205000,
+    c_sup: support_vol * 205000,
     scrap: c_part * 0.15
 }
 ti_grade2={
     c_part: part_volume * 601700,
-    c_sup: sup_in_kg * 601700,
+    c_sup: support_vol * 601700,
     scrap: c_part * 0.15
 }
 
 ti64={
     c_part: part_volume * 460000,
-    c_sup: sup_in_kg * 460000,
+    c_sup: support_vol * 460000,
     scrap: c_part * 0.15
 }
 
