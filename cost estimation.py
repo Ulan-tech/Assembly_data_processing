@@ -1,68 +1,64 @@
-import numpy as np
-import pandas pd
+# import numpy as np
+# import pandas pd
 
-
-
+#%% Defining material types:
+inconel = 'inconel_slm'
+maraging_steel = 'maraging_steel_slm'
+ss316l = 'sus316l'
+ti_grade2 = 'cp_ti'
+ti64 = 'ti6al4V'
+mat_cost_kg = 0
 
 #%% Total cost equation
-def cost_total (part_volume, support_vol, material_type, number_of_parts):
-    if inconel==material_type:
-        return True
+def cost_total (material_type, part_volume, support_vol, number_of_parts, t_build):
+    mat_cost = material_type[mat_cost_kg]
 
-    c_machine=T_build*c_machrate
-    cp_mat=c_part+ c_sup+c_scrap
-    c_build=c_machine + c_filter + c_gas + c_rl
-    c_post=c_mp+c_wc+c_ht
+    def cost (part_volume, support_vol, number_of_parts, t_build):
+        c_machine = t_build * c_machrate
 
-    if T_build>=240:
-        c_filter=2*c_filter_porous
-    elif T_build<240
-        c_filter=c_filter_porous
-    return 1/(1-F)*(cp_mat+c_build+c_post)*number_of_parts
+        cost_part = part_volume*mat_cost
+        cost_sup = support_vol*mat_cost
+        cost_scrap = cost_part*0.15
 
+        if t_build >= 240:
+            c_filter = 2*c_filter_porous
+        elif t_build < 240:
+            c_filter = c_filter_porous
 
+        cp_mat = cost_part + cost_sup + cost_scrap
+        c_build = c_machine + c_filter + c_gas + c_rl
+        c_post = c_mp + c_wc + c_ht
+
+        return 1/(1-F)*(cp_mat+c_build+c_post)/number_of_parts
+
+    cost_per_part = cost(part_volume, support_vol, number_of_parts, t_build)
+    return cost_per_part
 
 #%% Material cost
-material_type= [inconel,
+material_type = [inconel,
             maraging_steel,
             ss316l,
             ti_grade2,
             ti64
 ]
 
-cost_material = [
-            cp_part,
-            c_sup,
-            c_scrap
-]
-
 inconel={
-    c_part:part_volume*157300,
-    c_sup:support_vol*157300,
-    scrap:c_part*0.15
+    mat_cost_kg: 157300
 }
 
 maraging_steel={
-    c_part: part_volume * 206800,
-    c_sup: support_vol * 206800,
-    scrap: c_part * 0.15
+    mat_cost_kg: 206800
 }
 
 ss316l={
-    c_part: part_volume * 205000,
-    c_sup: support_vol * 205000,
-    scrap: c_part * 0.15
+    mat_cost_kg: 205000
 }
 ti_grade2={
-    c_part: part_volume * 601700,
-    c_sup: support_vol * 601700,
-    scrap: c_part * 0.15
+    mat_cost_kg: 601700
 }
 
 ti64={
-    c_part: part_volume * 460000,
-    c_sup: support_vol * 460000,
-    scrap: c_part * 0.15
+    mat_cost_kg: 460000
 }
 
 # if material=Inconel:
@@ -76,15 +72,16 @@ ti64={
 #     c_scrap=0.15*cp_part #asked Mr Choi, he said it is around 15%
 
 F=0.15 #an assumed value, it should be obtained by evaluation of ~50 builds in SLM single laser printer
+
 #%% Cost of build parameters all in KRW
 
-c_machrate=52246
-c_gas=60000
-c_rl=90000
-c_filter_porous=400000
+c_machrate = 52246
+c_gas = 60000
+c_rl = 90000
+c_filter_porous = 400000
 
 #%% Post-processing cost
-c_mp=500000
-c_wc=200000 #let it stay as constant for now
-c_ht=100000 #this is an assumed value, it should be different for various materials
+c_mp = 500000
+c_wc = 200000 #let it stay as constant for now
+c_ht = 100000 #this is an assumed value, it should be different for various materials
 
