@@ -5,8 +5,9 @@ import scipy.stats as stats
 from scipy.stats import gamma
 from scipy.stats import norm
 from matplotlib.patches import Polygon
+from scipy.stats import uniform
 #%% Loading data
-data = pd.read_csv(r'C:\Users\kazak\PycharmProjects\Assembly_data_processing\Data\HookC1.csv')
+data = pd.read_csv('.\Data\HookC1.csv')
 print(data.Time)
 #%% converting to time
 data['Time'] =  pd.to_datetime(data['Time'], format='%H:%M:%S %p')
@@ -189,7 +190,7 @@ ax.spines.top.set_visible(False)
 ax.xaxis.set_ticks_position('bottom')
 # plt.plot(x, gamma_pdf, label='Gamma Distribution', color="Blue")
 
-ax.set_xticks([a, b], labels=['$0$', '$55.561$'])
+# ax.set_xticks([a, b], labels=['$0$', '$55.561$'])
 # ax.set_yticks([])
 plt.xlabel("Assembly time (s)", fontsize=12)
 plt.ylabel("Probability \n Density", rotation='horizontal', fontsize=12)
@@ -215,3 +216,8 @@ cdf_half_consol_10_30=uniform.cdf(x=30000,loc=19932.25, scale=(48762.273-19932.2
 print(cdf_half_consol_10_30)
 cdf_half_consol_10_40=uniform.cdf(x=40000,loc=19932.25, scale=(48762.273-19932.25))-uniform.cdf(x=19932.25,loc=19932.25, scale=(48762.273-19932.25))
 print(cdf_half_consol_10_40)
+
+
+
+
+
