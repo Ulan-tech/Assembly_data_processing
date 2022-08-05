@@ -18,7 +18,7 @@ c_rl = 90000
 c_filter_porous = 400000
 
 #%% Post-processing cost
-c_mp = 500000
+c_mp = 50000
 c_wc = 200000 #let it stay as constant for now
 c_ht = 100000 #this is an assumed value, it should be different for various materials
 
@@ -28,11 +28,11 @@ c_ht = 100000 #this is an assumed value, it should be different for various mate
 #%% Total cost equation
 def cost_total (m_type, part_volume, support_vol, number_of_parts, t_build):
     material_type = {
-        "inconel": 157300,
-        "maraging_steel": 206800,
-        "ss316l": 205000,
-        "ti_grade2": 601700,
-        "ti64": 460000,
+        "inconel": 157300*8e-6, #WON/kg*kg/m3,
+        "maraging_steel": 206800*8.0e-6,
+        "ss316l": 205000*8.0e-6,
+        "ti_grade2": 601700*4.51e-6,
+        "ti64": 460000*4.43e-6,
     }
 
     mat_cost = material_type.__getitem__(m_type)
@@ -58,8 +58,9 @@ def cost_total (m_type, part_volume, support_vol, number_of_parts, t_build):
 
     cost_per_part = cost(part_volume, support_vol, number_of_parts, t_build)
     return cost_per_part
-print(cost_total("inconel", 100000, 150000, 1, 10))
-print(cost_total("inconel", 100000, 150000, 10 , 10))
+#print(cost_total("inconel", 100000, 150000, 1, 10))
+#print(cost_total("inconel", 100000, 150000, 10 , 10))
+print(cost_total('maraging_steel', 22372.54, 22372.54,1, 7))
 
 #%% Material cost
 
