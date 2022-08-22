@@ -26,7 +26,7 @@ c_ht = 100000 #this is an assumed value, it should be different for various mate
 
 
 #%% Total cost equation
-def cost_total (m_type, part_volume, support_vol, number_of_parts, t_build):
+def cost_total (m_type, part_volume, support_vol, number_of_parts, diff):
     material_type = {
         "inconel": 157300*8e-6, #WON/kg*kg/m3,
         "maraging_steel": 206800*8.0e-6,
@@ -37,7 +37,7 @@ def cost_total (m_type, part_volume, support_vol, number_of_parts, t_build):
 
     mat_cost = material_type.__getitem__(m_type)
 
-    def cost (part_volume, support_vol, number_of_parts, t_build):
+    def cost (part_volume, support_vol, different_parts, number_of_parts):
         c_machine = t_build * c_machrate
         # print(part_volume, mat_cost)
         cost_part = part_volume*mat_cost
@@ -54,13 +54,25 @@ def cost_total (m_type, part_volume, support_vol, number_of_parts, t_build):
         c_build = c_machine + c_filter + c_gas + c_rl
         c_post = c_mp + c_wc + c_ht
 
+        if different_parts == 1:
+            number_of_parts=int(input("Number of a part-1: "))
+
+        elif different_parts == number_of_different_parts:
+            for i in range (1,number_of_parts,1):
+                number_of_parts = int(input("Number of a part: "))
+                
+            t_build=int(input("Total build time from the SLM machine: "))
+
+
         return 1/(1-F)*(cp_mat+c_build+c_post)/number_of_parts
 
     cost_per_part = cost(part_volume, support_vol, number_of_parts, t_build)
     return cost_per_part
 #print(cost_total("inconel", 100000, 150000, 1, 10))
 #print(cost_total("inconel", 100000, 150000, 10 , 10))
-print(cost_total('maraging_steel', 22372.54, 22372.54,1, 7))
+print(cost_total('maraging_steel', 184513.7, 1845.137,1, 14))
+
+
 
 #%% Material cost
 
