@@ -33,7 +33,8 @@ def plot_unifor(min_srange,max_srange, min_drange, drange):
     ax.add_patch(poly)
 
     plt.xlabel("Support Volume (mm3)", fontsize=12)
-    plt.ylabel("Probability \n Density", fontsize=12)
+    plt.ylabel("Probability \n Density", rotation='horizontal', fontsize=12)
+    ax.yaxis.set_label_coords(-0.05, 1.04)
 
     plt.show()
     return fig

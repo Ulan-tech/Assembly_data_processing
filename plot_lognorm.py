@@ -47,7 +47,7 @@ def plot_lognorm(lognorm_drange, data):
 
     plt.xlabel("Displacement error (mm)", fontsize=12)
     plt.ylabel("Probability \n Density", rotation='horizontal', fontsize=12)
-    ax.yaxis.set_label_coords(-0.05,1)
+    ax.yaxis.set_label_coords(-0.05,1.04)
 
     plt.legend()
     plt.show()

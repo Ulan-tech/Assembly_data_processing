@@ -29,7 +29,7 @@ def plot_gamma(gamma_drange, data):
 
     fig, ax = plt.subplots()
     ax.plot(x_pdf, gamma_pdf, 'black', linewidth=2, label='Gamma Distribution')
-
+    plt.legend()
 
     # Shaded region
     min_gamma = 0
@@ -40,7 +40,8 @@ def plot_gamma(gamma_drange, data):
     ax.add_patch(poly)
 
     plt.xlabel("Assembly time (s)", fontsize=12)
-    plt.ylabel("Probability Density", fontsize=12)
+    plt.ylabel("Probability \n Density", rotation='horizontal', fontsize=12)
+    ax.yaxis.set_label_coords(-0.05, 1.04)
     plt.show()
     return fig
 
